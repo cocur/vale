@@ -1,0 +1,10 @@
+{
+  "name": "cocur/getter",
+  "require-dev": {
+    "phpunit/phpunit": "~4.5",
+    "mockery/mockery": "~0.9"
+  },
+  "autoload": {
+    "psr-4": {"Cocur\\Getter\\": "src"}
+  }
+}
