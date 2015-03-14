@@ -23,10 +23,20 @@ Person Object (
 )
 ```
 
-We can use Getter to retrieve the first name of the first child:
+We can use `Getter` to retrieve the first name of the first child:
 
 ```php
 use Cocur\Getter\Getter;
 
-$firstChildName = Getter::get($cersei, ['children', 0, 'firstName']);
+Getter::get($cersei, ['children', 0, 'firstName']); // -> "Joffrey"
+Getter::get($cersei, ['children', 0, 'lastName']);  // -> null
+```
+
+`Hasser` can be used to check if a value exists.
+
+```php
+use Cocur\Getter\Hasser;
+
+Hasser::has($cersei, ['children', 0, 'firstName']); // -> true
+Hasser::has($cersei, ['children', 0, 'lastName']);  // -> false
 ```
