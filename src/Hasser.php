@@ -3,47 +3,24 @@
 namespace Cocur\Getter;
 
 /**
- * Getter
+ * Hasser
  *
  * @package   Cocur\Getter
  * @author    Florian Eckerstorfer <florian@eckerstorfer.co>
  * @copyright 2015 Florian Eckerstorfer
  */
-class Getter
+class Hasser
 {
     /**
-     * Returns the value from $data defined by $keys.
-     *
-     * If $data is an object or an array (or a mixture with an arbitrary depth) the value defined by $keys will be
-     * returned. For example,
-     *   Getter::get($data, ['children', 0, 'firstName']);
-     * would be the same as:
-     *   $data->children[0]->getFirstName()
-     * In addition get() performs checks if the given elements exists at each level.
-     * If $data is only one level deep $keys can be a string instead of an array. For example,
-     *   Getter::get($data, ['foo' => 'bar'], 'foo');
-     *
-     * At each level a value is tried to be retrieved in the following order:
-     * 1. If $data is an array, return element with the key
-     * 2. If $data is an object
-     *      a. Try property key
-     *      b. Try method key()
-     *      c. Try method getKey()
-     *      d. Try method hasKey()
-     *      e. Try method isKey()
-     *
-     * If $data is a scalar value, this value is returned immediately.
-     *
      * @param mixed        $data
      * @param array|string $keys
-     * @param mixed|null   $default
      *
-     * @return mixed
+     * @return bool
      */
-    public static function get($data, $keys, $default = null)
+    public static function has($data, $keys)
     {
         if (is_scalar($data)) {
-            return $data;
+            return true;
         }
         if (!is_array($keys)) {
             $keys = [$keys];
@@ -68,10 +45,10 @@ class Getter
             } else if (is_object($current) && method_exists($current, $isser) && is_callable([$current, $isser])) {
                 $current = $current->$isser();
             } else {
-                return $default;
+                return false;
             }
         }
 
-        return $current;
+        return true;
     }
 }

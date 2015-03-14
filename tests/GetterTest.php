@@ -1,8 +1,10 @@
 <?php
 
 namespace Cocur\Getter;
+
+require_once __DIR__.'/MockClass.php';
+
 use stdClass;
-use Mockery;
 
 /**
  * GetterTest
@@ -34,6 +36,15 @@ class GetterTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame('foo', Getter::get(['foo', 'bar'], [0]));
         $this->assertSame(42, Getter::get(['foo'=>['bar'=>42], 'bar'], ['foo', 'bar']));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Getter\Getter::get()
+     */
+    public function getTakesKeyAsStringIfOnlyOneKey()
+    {
+        $this->assertSame('foo', Getter::get(['bar' => 'foo'], 'bar'));
     }
 
     /**
@@ -85,11 +96,4 @@ class GetterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('bar', Getter::get(['qoo' => $obj1], ['qoo', 'foo']));
     }
-}
-
-class MockClass {
-    public function getFoo() { return 'foo'; }
-    public function isBar() { return 'bar'; }
-    public function hasQoo() { return 'qoo'; }
-    public function qoz() { return 'qoz'; }
 }
