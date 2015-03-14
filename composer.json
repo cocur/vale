@@ -5,6 +5,6 @@
     "mockery/mockery": "~0.9"
   },
   "autoload": {
-    "psr-4": {"Cocur\\Getter\\": "src"}
+    "psr-4": {"Cocur\\Vale\\": "src"}
   }
 }
