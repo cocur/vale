@@ -2,6 +2,8 @@ Vale
 ====
 
 > Vale is a helper utility that lets you get and set values in arbitrary nested arrays and objects.
+
+[![Build Status](https://img.shields.io/travis/cocur/vale/master.svg?style=flat)](https://travis-ci.org/cocur/vale)
  
 Developed by [Florian Eckerstorfer](https://florian.ec) in Vienna, Europe.
 
