@@ -158,8 +158,8 @@ class Vale
     }
 
     /**
-     * @param array|object $data
-     * @param string       $key
+     * @param mixed  $data
+     * @param string $key
      *
      * @return bool
      */
