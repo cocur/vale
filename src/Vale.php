@@ -123,7 +123,7 @@ class Vale
                 $current = &$current[$key];
             } else if (is_array($current) && $depth+1 === count($keys)) {
                 $current[$key] = null;
-                $current = &$current[$key];
+                $current       = &$current[$key];
             } else if (is_object($current) && isset($current->$key)) {
                 $current = &$current->$key;
             } else if ($this->isObjectWithMethod($current, $key) && $depth+1 === count($keys)) {
@@ -142,7 +142,7 @@ class Vale
                 $current = $current->$isser();
             } else if (is_object($current) && $depth+1 === count($keys)) {
                 $current->$key = null;
-                $current = &$current->$key;
+                $current       = &$current->$key;
             } else {
                 throw new InvalidArgumentException(sprintf('Did not find path %s in structure %s', json_encode($keys), json_encode($data)));
             }
