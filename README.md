@@ -74,11 +74,11 @@ If `$data` is an array, each element in `$keys` is used to navigate deeper into 
 is an object, each key is tried as property, method, getter, hasser and isser. The order is like this:
 
 1. `$data[$key]`
-2. `$data->$key`
-3. `$data->$key()`
-4. `$data->get$Key()`
-5. `$data->has$Key()`
-6. `$data->is$Key()`
+2. `$data->$key()`
+3. `$data->get$Key()`
+4. `$data->has$Key()`
+5. `$data->is$Key()`
+6. `$data->$key`
 
 ### Set
 
@@ -87,10 +87,9 @@ same means of navigating through the array and object as in `get()` are used. Wh
 the following versions are tried.
 
 1. `$data[$key] = $value`
-2. `$data->$key = $value` (if `$key` already exists in `$data`)
-3. `$data->$key($value)`
-4. `$data->set$Key($value)`
-5. `$data->$key = $value` (if `$key` does not exists in `$data`)
+2. `$data->$key($value)`
+3. `$data->set$Key($value)`
+4. `$data->$key = $value` (if `$key` does not exists in `$data`)
 
 Change Log
 ----------

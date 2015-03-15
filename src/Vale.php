@@ -76,8 +76,6 @@ class Vale
 
             if (is_array($current) && array_key_exists($key, $current)) {
                 $current = $current[$key];
-            } else if (is_object($current) && isset($current->$key)) {
-                $current = $current->$key;
             } else if ($this->isObjectWithMethod($current, $key)) {
                 $current = $current->$key();
             } else if ($this->isObjectWithMethod($current, $getter)) {
@@ -86,6 +84,8 @@ class Vale
                 $current = $current->$hasser();
             } else if ($this->isObjectWithMethod($current, $isser)) {
                 $current = $current->$isser();
+            } else if (is_object($current) && isset($current->$key)) {
+                $current = $current->$key;
             } else {
                 return $default;
             }
@@ -125,8 +125,6 @@ class Vale
             } else if (is_array($current) && $depth+1 === $keyCount) {
                 $current[$key] = null;
                 $current       = &$current[$key];
-            } else if (is_object($current) && isset($current->$key)) {
-                $current = &$current->$key;
             } else if ($this->isObjectWithMethod($current, $key) && $depth+1 === $keyCount) {
                 $current->$key($value);
                 $value = null;
@@ -141,6 +139,8 @@ class Vale
                 $current = $current->$hasser();
             } else if ($this->isObjectWithMethod($current, $isser)) {
                 $current = $current->$isser();
+            } else if (is_object($current) && isset($current->$key)) {
+                $current = &$current->$key;
             } else if (is_object($current) && $depth+1 === $keyCount) {
                 $current->$key = null;
                 $current       = &$current->$key;
