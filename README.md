@@ -32,8 +32,10 @@ Installation
 You can install Vale using [Composer](https://getcomposer.org):
 
 ```shell
-$ composer require cocur/vale:dev-master
+$ composer require cocur/vale:@stable
 ```
+
+*Tip: Replace `@stable` with a version from the [releases page](https://github.com/cocur/vale/releases).*
 
 
 Usage
@@ -91,10 +93,13 @@ the following versions are tried.
 3. `$data->set$Key($value)`
 4. `$data->$key = $value` (if `$key` does not exists in `$data`)
 
+
 Change Log
 ----------
 
-*No version released yet.*
+### Version 0.1 (15 March 2015)
+
+- Initial release
 
 
 License
