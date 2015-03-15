@@ -64,7 +64,8 @@ class Vale
      */
     public function getValue($data, $keys, $default = null)
     {
-        if (!$keys) {
+        $keyCount = count($keys);
+        if (!$keyCount) {
             return $data;
         }
 
@@ -103,7 +104,8 @@ class Vale
      */
     public function setValue($data, $keys, $value)
     {
-        if (!$keys) {
+        $keyCount = count($keys);
+        if (!$keyCount) {
             return $data;
         }
 
@@ -112,7 +114,7 @@ class Vale
         } else {
             $current = $data;
         }
-        $depth   = 0;
+        $depth = 0;
         foreach ($keys as $key) {
             $setter = 'set'.ucfirst($key);
             $getter = 'get'.ucfirst($key);
@@ -121,15 +123,15 @@ class Vale
 
             if (is_array($current) && array_key_exists($key, $current)) {
                 $current = &$current[$key];
-            } else if (is_array($current) && $depth+1 === count($keys)) {
+            } else if (is_array($current) && $depth+1 === $keyCount) {
                 $current[$key] = null;
                 $current       = &$current[$key];
             } else if (is_object($current) && isset($current->$key)) {
                 $current = &$current->$key;
-            } else if ($this->isObjectWithMethod($current, $key) && $depth+1 === count($keys)) {
+            } else if ($this->isObjectWithMethod($current, $key) && $depth+1 === $keyCount) {
                 $current->$key($value);
                 $value = null;
-            } else if ($this->isObjectWithMethod($current, $setter) && $depth+1 === count($keys)) {
+            } else if ($this->isObjectWithMethod($current, $setter) && $depth+1 === $keyCount) {
                 $current->$setter($value);
                 $value = null;
             } else if ($this->isObjectWithMethod($current, $key)) {
@@ -140,7 +142,7 @@ class Vale
                 $current = $current->$hasser();
             } else if ($this->isObjectWithMethod($current, $isser)) {
                 $current = $current->$isser();
-            } else if (is_object($current) && $depth+1 === count($keys)) {
+            } else if (is_object($current) && $depth+1 === $keyCount) {
                 $current->$key = null;
                 $current       = &$current->$key;
             } else {
