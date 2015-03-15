@@ -64,8 +64,7 @@ class Vale
      */
     public function getValue($data, $keys, $default = null)
     {
-        $keyCount = count($keys);
-        if (!$keyCount) {
+        if ($keys === null || $keys === '' || count($keys) === 0) {
             return $data;
         }
 
@@ -104,8 +103,7 @@ class Vale
      */
     public function setValue($data, $keys, $value)
     {
-        $keyCount = count($keys);
-        if (!$keyCount) {
+        if ($keys === null || $keys === '' || count($keys) === 0) {
             return $data;
         }
 
@@ -115,6 +113,7 @@ class Vale
             $current = $data;
         }
         $depth = 0;
+        $keyCount = count($keys);
         foreach ($keys as $key) {
             $setter = 'set'.ucfirst($key);
             $getter = 'get'.ucfirst($key);
