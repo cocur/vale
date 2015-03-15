@@ -57,6 +57,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::getValue()
+     * @covers Cocur\Vale\Vale::isKeysEmpty()
      */
     public function getValueReturnsDataIfKeysIsEmpty()
     {
@@ -135,6 +136,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::getValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function getValueReturnsValueFromObjectMethod()
     {
@@ -153,6 +155,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::getValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function getValueReturnsNullIfObjectMethodIsNotPublic()
     {
@@ -168,6 +171,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::getValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function getValueReturnsValueFromObjectGetter()
     {
@@ -186,6 +190,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::getValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function getValueReturnsNullIfObjectGetterIsNotPublic()
     {
@@ -201,6 +206,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::getValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function getValueReturnsValueFromObjectHasser()
     {
@@ -215,6 +221,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::getValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function getValueReturnsNullIfObjectHasserIsNotPublic()
     {
@@ -230,6 +237,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::getValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function getValueReturnsValueFromObjectIsser()
     {
@@ -244,6 +252,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::getValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function getValueReturnsNullIfObjectIsserIsNotPublic()
     {
@@ -337,6 +346,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::setValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function setValueSetsValueInObjectUsingMethod()
     {
@@ -351,6 +361,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::setValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function setValueSetsValueInObjectUsingSetter()
     {
@@ -365,6 +376,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::setValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function setValueSetsValueThroughNavigationMethod()
     {
@@ -383,6 +395,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::setValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function setValueSetsValueThroughNavigationGetter()
     {
@@ -401,6 +414,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::setValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function setValueSetsValueThroughNavigationHasser()
     {
@@ -419,6 +433,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @covers Cocur\Vale\Vale::setValue()
+     * @covers Cocur\Vale\Vale::isObjectWithMethod()
      */
     public function setValueSetsValueThroughNavigationIsser()
     {

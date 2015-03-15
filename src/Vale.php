@@ -64,7 +64,7 @@ class Vale
      */
     public function getValue($data, $keys, $default = null)
     {
-        if ($keys === null || $keys === '' || count($keys) === 0) {
+        if ($this->isKeysEmpty($keys)) {
             return $data;
         }
 
@@ -103,7 +103,7 @@ class Vale
      */
     public function setValue($data, $keys, $value)
     {
-        if ($keys === null || $keys === '' || count($keys) === 0) {
+        if ($this->isKeysEmpty($keys)) {
             return $data;
         }
 
@@ -112,7 +112,7 @@ class Vale
         } else {
             $current = $data;
         }
-        $depth = 0;
+        $depth    = 0;
         $keyCount = count($keys);
         foreach ($keys as $key) {
             $setter = 'set'.ucfirst($key);
@@ -166,5 +166,15 @@ class Vale
     protected function isObjectWithMethod($data, $key)
     {
         return is_object($data) && method_exists($data, $key) && is_callable([$data, $key]);
+    }
+
+    /**
+     * @param string[]|string|null $keys
+     *
+     * @return bool
+     */
+    protected function isKeysEmpty($keys)
+    {
+        return $keys === null || $keys === '' || count($keys) === 0;
     }
 }
