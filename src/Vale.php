@@ -1,6 +1,7 @@
 <?php
 
 namespace Cocur\Vale;
+
 use InvalidArgumentException;
 
 /**
@@ -13,6 +14,9 @@ use InvalidArgumentException;
  */
 class Vale
 {
+    /**
+     * @var Vale
+     */
     private static $instance;
 
     /**
@@ -27,16 +31,37 @@ class Vale
         return self::$instance;
     }
 
+    /**
+     * @param mixed $data
+     * @param array $keys
+     * @param mixed $default
+     *
+     * @return mixed
+     */
     public static function get($data, $keys, $default = null)
     {
         return self::instance()->getValue($data, $keys, $default);
     }
 
+    /**
+     * @param mixed $data
+     * @param array $keys
+     * @param mixed $value
+     *
+     * @return mixed
+     */
     public static function set($data, $keys, $value)
     {
         return self::instance()->setValue($data, $keys, $value);
     }
 
+    /**
+     * @param mixed      $data
+     * @param array      $keys
+     * @param mixed|null $default
+     *
+     * @return mixed
+     */
     public function getValue($data, $keys, $default = null)
     {
         if (!$keys) {
@@ -53,13 +78,13 @@ class Vale
                 $current = $current[$key];
             } else if (is_object($current) && isset($current->$key)) {
                 $current = $current->$key;
-            } else if (is_object($current) && method_exists($current, $key) && is_callable([$current, $key])) {
+            } else if ($this->isObjectWithMethod($current, $key)) {
                 $current = $current->$key();
-            } else if (is_object($current) && method_exists($current, $getter) && is_callable([$current, $getter])) {
+            } else if ($this->isObjectWithMethod($current, $getter)) {
                 $current = $current->$getter();
-            } else if (is_object($current) && method_exists($current, $hasser) && is_callable([$current, $hasser])) {
+            } else if ($this->isObjectWithMethod($current, $hasser)) {
                 $current = $current->$hasser();
-            } else if (is_object($current) && method_exists($current, $isser) && is_callable([$current, $isser])) {
+            } else if ($this->isObjectWithMethod($current, $isser)) {
                 $current = $current->$isser();
             } else {
                 return $default;
@@ -69,6 +94,13 @@ class Vale
         return $current;
     }
 
+    /**
+     * @param mixed $data
+     * @param array $keys
+     * @param mixed $value
+     *
+     * @return mixed
+     */
     public function setValue($data, $keys, $value)
     {
         if (!$keys) {
@@ -94,21 +126,19 @@ class Vale
                 $current = &$current[$key];
             } else if (is_object($current) && isset($current->$key)) {
                 $current = &$current->$key;
-            } else if (is_object($current) && method_exists($current, $key) && is_callable([$current, $key])
-                    && $depth+1 === count($keys)) {
+            } else if ($this->isObjectWithMethod($current, $key) && $depth+1 === count($keys)) {
                 $current->$key($value);
                 $value = null;
-            } else if (is_object($current) && method_exists($current, $setter) && is_callable([$current, $setter])
-                    && $depth+1 === count($keys)) {
+            } else if ($this->isObjectWithMethod($current, $setter) && $depth+1 === count($keys)) {
                 $current->$setter($value);
                 $value = null;
-            } else if (is_object($current) && method_exists($current, $key) && is_callable([$current, $key])) {
+            } else if ($this->isObjectWithMethod($current, $key)) {
                 $current = $current->$key();
-            } else if (is_object($current) && method_exists($current, $getter) && is_callable([$current, $getter])) {
+            } else if ($this->isObjectWithMethod($current, $getter)) {
                 $current = $current->$getter();
-            } else if (is_object($current) && method_exists($current, $hasser) && is_callable([$current, $hasser])) {
+            } else if ($this->isObjectWithMethod($current, $hasser)) {
                 $current = $current->$hasser();
-            } else if (is_object($current) && method_exists($current, $isser) && is_callable([$current, $isser])) {
+            } else if ($this->isObjectWithMethod($current, $isser)) {
                 $current = $current->$isser();
             } else if (is_object($current) && $depth+1 === count($keys)) {
                 $current->$key = null;
@@ -124,5 +154,16 @@ class Vale
         }
 
         return $data;
+    }
+
+    /**
+     * @param array|object $data
+     * @param string       $key
+     *
+     * @return bool
+     */
+    protected function isObjectWithMethod($data, $key)
+    {
+        return is_object($data) && method_exists($data, $key) && is_callable([$data, $key]);
     }
 }
