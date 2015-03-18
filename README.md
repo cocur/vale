@@ -19,7 +19,7 @@ Get and set values in complex nested arrays and objects. You can write
 $baz = Vale::get($data, ['foo', 'bar', 'baz', 0]);
 ```
 
-instead of writing:
+instead of writing
 
 ```php
 $baz = (isset($data['foo']->bar['baz'][0])) ? $data['foo']->bar['baz'][0] : null;
