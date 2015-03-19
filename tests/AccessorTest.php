@@ -230,6 +230,21 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      * @covers Cocur\Vale\Accessor::to()
      * @covers Cocur\Vale\Accessor::isObjectWithMethod()
      */
+    public function toGoesToKeyInObjectUsingGet()
+    {
+        eval('class AccessorTestMockToGoesToKeyInObjectUsingGet { public function get($k) { return "bar"; } }');
+        $obj = new \AccessorTestMockToGoesToKeyInObjectUsingGet();
+        $accessor = new Accessor($obj);
+
+        $this->assertTrue($accessor->to('level1'));
+        $this->assertSame('bar', $accessor->getCurrent());
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::to()
+     * @covers Cocur\Vale\Accessor::isObjectWithMethod()
+     */
     public function toGoesToKeyInObjectUsingHasser()
     {
         eval('class AccessorTestMockToGoesToKeyInObjectUsingHasser { public function hasLevel1() { return "bar"; } }');
@@ -276,6 +291,21 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      * @covers Cocur\Vale\Accessor::to()
      * @covers Cocur\Vale\Accessor::isObjectWithMethod()
      */
+    public function toGoesToKeyInObjectUsingHas()
+    {
+        eval('class AccessorTestMockToGoesToKeyInObjectUsingHas { public function has($k) { return "bar"; } }');
+        $obj = new \AccessorTestMockToGoesToKeyInObjectUsingHas();
+        $accessor = new Accessor($obj);
+
+        $this->assertTrue($accessor->to('level1'));
+        $this->assertSame('bar', $accessor->getCurrent());
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::to()
+     * @covers Cocur\Vale\Accessor::isObjectWithMethod()
+     */
     public function toGoesToKeyInObjectUsingIsser()
     {
         eval('class AccessorTestMockToGoesToKeyInObjectUsingIsser { public function isLevel1() { return "bar"; } }');
@@ -315,6 +345,21 @@ class AccessorTest extends PHPUnit_Framework_TestCase
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->to('invalid'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::to()
+     * @covers Cocur\Vale\Accessor::isObjectWithMethod()
+     */
+    public function toGoesToKeyInObjectUsingIs()
+    {
+        eval('class AccessorTestMockToGoesToKeyInObjectUsingIs { public function is($k) { return "bar"; } }');
+        $obj = new \AccessorTestMockToGoesToKeyInObjectUsingIs();
+        $accessor = new Accessor($obj);
+
+        $this->assertTrue($accessor->to('level1'));
+        $this->assertSame('bar', $accessor->getCurrent());
     }
 
     /**

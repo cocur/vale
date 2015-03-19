@@ -76,9 +76,12 @@ is an object, each key is tried as property, method, getter, hasser and isser. T
 1. `$data[$key]`
 2. `$data->$key()`
 3. `$data->get$Key()`
-4. `$data->has$Key()`
-5. `$data->is$Key()`
-6. `$data->$key`
+4. `$data->get($key)`
+5. `$data->has$Key()`
+6. `$data->has($key)`
+7. `$data->is$Key()`
+8. `$data->is($key)`
+9. `$data->$key`
 
 ### Set
 

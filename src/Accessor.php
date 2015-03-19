@@ -70,10 +70,16 @@ class Accessor
             $this->current = $this->current->$key();
         } else if ($this->isObjectWithMethod($this->current, $getter)) {
             $this->current = $this->current->$getter();
+        } else if ($this->isObjectWithMethod($this->current, 'get')) {
+            $this->current = $this->current->get($key);
         } else if ($this->isObjectWithMethod($this->current, $hasser)) {
             $this->current = $this->current->$hasser();
+        } else if ($this->isObjectWithMethod($this->current, 'has')) {
+            $this->current = $this->current->has($key);
         } else if ($this->isObjectWithMethod($this->current, $isser)) {
             $this->current = $this->current->$isser();
+        } else if ($this->isObjectWithMethod($this->current, 'is')) {
+            $this->current = $this->current->is($key);
         } else if (is_object($this->current) && isset($this->current->$key)) {
             $this->current = $this->current->$key;
         } else {
