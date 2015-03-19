@@ -1,7 +1,8 @@
 Vale
 ====
 
-> Vale lets you get and set values in arbitrary nested arrays and objects.
+> Vale helps you working with complex data structures. Easily get, set, unset and check the existence of values in
+  deeply nested arrays and objects.
 
 [![Build Status](https://img.shields.io/travis/cocur/vale/master.svg?style=flat)](https://travis-ci.org/cocur/vale)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/cocur/vale.svg?style=flat)](https://scrutinizer-ci.com/g/cocur/vale/?branch=master)
@@ -13,16 +14,22 @@ Developed by [Florian Eckerstorfer](https://florian.ec) in Vienna, Europe.
 Features
 --------
 
-Get and set values in complex nested arrays and objects. You can write
+- Get, set, unset and check the existence of values in deeply nested arrays and objects
+- Works with arbitrary arrays and objects and any combination of them
+- Use getters, setters, unsetters, hassers and issers in objects
 
 ```php
-$baz = Vale::get($data, ['foo', 'bar', 'baz', 0]);
-```
+$name = Vale::get($families, ['lannister', 'leader', 'children', 2, 'name']);
 
-instead of writing
-
-```php
-$baz = (isset($data['foo']->bar['baz'][0])) ? $data['foo']->bar['baz'][0] : null;
+// This would be equal to the following
+$name = null;
+if (isset($families['lannister']) && $families['lannister']) {
+    if ($families['lannister']->getLeader()) {
+        if (isset($families['lannister']->getLeader()->children[2]) && $families['lannister']->getLeader()->children[2]) {
+            $name = $families['lannister']->getLeader()->children[2]->name();
+        }
+    }
+}
 ```
 
 
@@ -39,39 +46,54 @@ $ composer require cocur/vale
 Usage
 -----
 
-You can use the static `get()` and `set()` methods.
+You can use either the static methods provided by Vale or create an instance of Vale.
 
 ```php
 use Cocur\Vale\Vale;
 
-Vale::get(['name' => 'Tyrion'], ['name']); // -> "Tyrion"
-Vale::set([], ['name'], 'Tyrion'); // -> ["name" => "Tyrion"]
-```
-
-In addition you can create an instance of `Vale` and use the `getValue()` and `setValue()` methods:
-
-```php
-use Cocur\Vale\Vale;
+$data = ['name' => 'Tyrion'];
+Vale::get($data, ['name']); // -> "Tyrion"
+Vale::set($data, ['name'], 'Cersei'); // -> ["name" => "Cersei"]
+Vale::has($data, ['name']); // -> true
+Vale::remove($data, ['name']); // -> []
 
 $vale = new Vale();
-$vale->getValue(['name' => 'Tyrion'], ['name']); // -> "Tyrion"
-$vale->setValue([], ['name'], 'Tyrion'); // -> ["name" => "Tyrion"]
+$vale->getValue($data, ['name']); // -> "Tyrion"
+$vale->setValue($data, ['name'], 'Cersei'); // -> ["name" => "Cersei"]
+$vale->hasValue($data, ['name']); // -> true
+$vale->removeValue($data, ['name']); // -> []
 ```
 
+For flat arrays and objects (that is, arrays and objects with only one level of depth) you can also use a string
+or integer as key. This works for both the static as well as the instance methods.
 
-Documentation
--------------
+```php
+Vale::get(['name' => 'Tyrion'], 'name'); // -> "Tyrion"
+Vale::get(['Tyrion'], 0); // -> "Tyrion"
+```
+
 
 ### Get
 
-If the `$keys` parameter is an empty array, an empty string or `null`, the original `$data` is returned.
+`::get()` and `->getValue()` return the value of a specified element.
 
 ```php
-Vale::get(['name' => 'Florian'], []); // -> ['name' => 'Florian']
+mixed get(mixed $data, array|string|int $keys, mixed $default = null)
+mixed getValue(mixed $data, array|string|int $keys, mixed $default = null)
 ```
 
-If `$data` is an array, each element in `$keys` is used to navigate deeper into the nested `$data` array; if `$data`
-is an object, each key is tried as property, method, getter, hasser and isser. The order is like this:
+- `$data` is an arbitrary data structure
+- `$keys` is an array of keys to access the value. If the length is `1`, `$keys` can be a string or int; if it is an
+  empty array, an empty string or `null`, the original `$data` is returned
+- `$default` is the default value that is returned if the value does not exist in `$data`
+
+
+
+```php
+Vale::get(['name' => 'Tyrion'], []); // -> ['name' => 'Tyrion']
+```
+
+Vale tries different ways to access the element specified in `$keys`. The following variants are tried in this order:
 
 1. `$data[$key]`
 2. `$data->$key()`
@@ -85,9 +107,21 @@ is an object, each key is tried as property, method, getter, hasser and isser. T
 
 ### Set
 
-The `set()` and `setValue()` methods always return the `$data` object or array. If the array or object is nested the
-same means of navigating through the array and object as in `get()` are used. When it comes to setting the value
-the following versions are tried.
+`::set()` and `->setValue()` set the value of an element at the given position.
+
+```php
+mixed set(mixed $data, array|string|int $keys, mixed $value)
+mixed setValue(mixed $data, array|string|int $keys, mixed $value)
+```
+
+- `$data` is an arbitrary data structure
+- `$keys` is an array of keys to access the value. If the length is `1`, `$keys` can be a string or int
+- `$value` is the value for the element
+
+The modified `$data` is returned
+
+*Set* utilizes the same means of navigating through nested data structures as [Get](#get) and tries the following
+variants to set the value:
 
 1. `$data[$key] = $value`
 2. `$data->$key($value)`
@@ -97,8 +131,20 @@ the following versions are tried.
 
 ### Has
 
-The `has()` and `hasValue()` methods return `true` if the given key exists in the array or object and `false` if the
-key does not exist. They always return `true` if `$keys` is empty. `hasValue()` checks the following versions:
+`::has()` and `->hasValue()` returns if an element exists
+
+```php
+bool has(mixed $data, array|string|int $keys)
+bool hasValue(mixed $data, array|string|int $keys)
+```
+
+- `$data` is an arbitrary data structure
+- `$keys` is an array of keys to access the value. If the length is `1`, `$keys` can be a string or int
+
+`true` is returned when the element exists, `false` otherwise.
+
+*Has* utilizes the same means of navigating through nested data structures as [Get](#get) and tries the following
+variants to check the existence of an element:
 
 1. `isset($data[$key])`
 2. `isset($data->$key)`
@@ -109,16 +155,34 @@ key does not exist. They always return `true` if `$keys` is empty. `hasValue()` 
 7. `$data->$key()`
 8. `$data->get$Key()`
 
+The variants involving a method call (such as `has$Key()` or `has()`) return `true` if the method returns `true` or
+a value that evaluates to `true`. If the method returns a value that evaluates to `false` (such as `''`, `0` or `null`)
+then *has* returns `false`.
+
 ### Remove
 
-The `remove()` and `removeValue()` method removes the given key from the array or object. If the keys are empty then
-`null` is returned (that is, they remove the whole input). The following versions are tried:
+`::remove()` and `->removeValue()` remove an element from the given data structure
+
+```php
+mixed remove(mixed $data, array|string|int $keys)
+mixed removeValue(mixed $data, array|string|int $keys)
+```
+
+- `$data` is an arbitrary data structure
+- `$keys` is an array of keys to access the value. If the length is `1`, `$keys` can be a string or int
+
+The modified `$data` is returned or `null` if `$keys` is empty
+
+*Remove* utilizes the same means of navigating through nested data structures as [Get](#get) and tries the following
+variants to remove the element from the data structure:
 
 1. `unset($data[$key])`
 2. `unset($data->$key)`
 3. `$data->unset$Key()`
 4. `$data->remove$Key()`
 5. `$data->remove($key)`
+
+*Please note that `unset()` is not used, because it is an reserved keyword in PHP.*
 
 
 Change Log
@@ -127,6 +191,20 @@ Change Log
 ### Version 0.1 (15 March 2015)
 
 - Initial release
+
+
+Motivation
+----------
+
+Vale was largely motivated by the need for a simpler, but faster implementation of the 
+[Symfony PropertyAccess](http://symfony.com/doc/current/components/property_access/introduction.html) component.
+PropertyAccess is great when used in templates or config files, that is, code that is compiled and cached before
+being executes. However, the heavy use of string parsing and reflection make PropertyAccess not suitable for code that
+is compiled. Another source of inspiration was the [`get-in`](https://github.com/igorw/get-in) library by Igor
+Wiedler for array traversal.
+
+Name: I used A Song of Ice and Fire related strings for testing and due to having to write `value` quite often, I came
+up with [Vale](http://awoiaf.westeros.org/index.php/Vale_of_Arryn).
 
 
 License
