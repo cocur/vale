@@ -690,4 +690,80 @@ class AccessorTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse($accessor->has('level1'));
     }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::remove()
+     */
+    public function removeRemovesValueFromArray()
+    {
+        $accessor = new Accessor(['level1' => 'foo']);
+
+        $this->assertTrue($accessor->remove('level1'));
+        $this->assertFalse(isset($accessor->getData()['level1']));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::remove()
+     */
+    public function removeReturnsFalseIfKeyDoesNotExist()
+    {
+        $accessor = new Accessor([]);
+
+        $this->assertFalse($accessor->remove('level1'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::remove()
+     */
+    public function removeRemovesValueFromObject()
+    {
+        $obj = new stdClass();
+        $obj->level1 = 'foo';
+        $accessor = new Accessor($obj);
+
+        $this->assertTrue($accessor->remove('level1'));
+        $this->assertFalse(isset($accessor->getData()->level1));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::remove()
+     */
+    public function removeReturnsFalseIfPropertyDoesNotExist()
+    {
+        $accessor = new Accessor(new stdClass());
+
+        $this->assertFalse($accessor->remove('level1'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::remove()
+     */
+    public function removeRemovesValueFromObjectUsingUnsetter()
+    {
+        eval('class AccessorTestMockRemovesValueFromObjectUsingUnsetter { private $v; public function unsetLevel1() { unset($this->v); } public function is() { return isset($this->v); } }');
+        $obj = new \AccessorTestMockRemovesValueFromObjectUsingUnsetter();
+        $accessor = new Accessor($obj);
+
+        $this->assertTrue($accessor->remove('level1'));
+        $this->assertFalse($accessor->getData()->is());
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::remove()
+     */
+    public function removeRemovesValueFromObjectUsingRemover()
+    {
+        eval('class AccessorTestMockRemovesValueFromObjectUsingRemover { private $v; public function removeLevel1() { unset($this->v); } public function is() { return isset($this->v); } }');
+        $obj = new \AccessorTestMockRemovesValueFromObjectUsingRemover();
+        $accessor = new Accessor($obj);
+
+        $this->assertTrue($accessor->remove('level1'));
+        $this->assertFalse($accessor->getData()->is());
+    }
 }

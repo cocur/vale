@@ -65,6 +65,17 @@ class ValeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers Cocur\Vale\Vale::remove()
+     */
+    public function removeRemovesValue()
+    {
+        $result = Vale::remove(['name' => 'Tyrion'], ['name']);
+
+        $this->assertFalse(isset($result['name']));
+    }
+
+    /**
+     * @test
      * @covers Cocur\Vale\Vale::getValue()
      * @covers Cocur\Vale\Vale::isKeysEmpty()
      */
@@ -184,5 +195,56 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     public function hasValueReturnsFalseIfValueNotExists()
     {
         $this->assertFalse($this->vale->hasValue(['foo' => 'bar'], ['invalid']));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Vale::removeValue()
+     */
+    public function removeValueReturnsNullIfKeysIsEmpty()
+    {
+        $data = ['name' => 'Tyrion'];
+
+        $this->assertNull($this->vale->removeValue($data, []), 'Return null if $keys is empty array');
+        $this->assertNull($this->vale->removeValue($data, ''), 'Return null is $keys is empty string');
+        $this->assertNull($this->vale->removeValue($data, null), 'Return null if $keys is null');
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Vale::removeValue()
+     */
+    public function removeValueRemovesValueFromArray()
+    {
+        $data = ['name' => 'Tyrion', 'family' => ['name' => 'Lannister']];
+
+        $result = $this->vale->removeValue($data, ['name']);
+        $this->assertFalse(isset($result['name']), 'Remove value in flat array');
+
+        $result = $this->vale->removeValue($data, ['family', 'name']);
+        $this->assertFalse(isset($result['family']['name']), 'Remove value in nested array');
+    }
+
+    /**
+     * @test
+     * @covers                   Cocur\Vale\Vale::removeValue()
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage Did not find path ["family","seat"] in structure []
+     */
+    public function removeValueThrowsExceptionIfKeyInPathDoesNotExist()
+    {
+        $this->vale->removeValue([], ['family', 'seat']);
+    }
+
+    /**
+     * @test
+     * @covers                   Cocur\Vale\Vale::removeValue()
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage Did not remove path ["family","seat"] in structure {"family":[]}
+     */
+    public function removeValueThrowsExceptionIfValueCanNotBeSetInPath()
+    {
+        // This should really only happen if an element in the middle of the path is a scalar value.
+        $this->vale->removeValue(['family' => []], ['family', 'seat']);
     }
 }

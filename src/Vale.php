@@ -67,6 +67,17 @@ class Vale
     }
 
     /**
+     * @param mixed $data
+     * @param array $keys
+     *
+     * @return mixed
+     */
+    public static function remove($data, $keys)
+    {
+        return self::instance()->removeValue($data, $keys);
+    }
+
+    /**
      * @param mixed      $data
      * @param array      $keys
      * @param mixed|null $default
@@ -148,6 +159,44 @@ class Vale
         }
 
         return true;
+    }
+
+    /**
+     * @param mixed $data
+     * @param array $keys
+     *
+     * @return mixed
+     */
+    public function removeValue($data, $keys)
+    {
+        if ($this->isKeysEmpty($keys)) {
+            return null;
+        }
+
+        $accessor = new Accessor($data);
+        $keyCount = count($keys);
+        $depth    = 0;
+        foreach ($keys as $key) {
+            if ($depth+1 === $keyCount) {
+                if ($accessor->remove($key) === false) {
+                    throw new InvalidArgumentException(sprintf(
+                        'Did not remove path %s in structure %s',
+                        json_encode($keys),
+                        json_encode($data)
+                    ));
+                }
+            } else if ($accessor->to($key) === false) {
+                throw new InvalidArgumentException(sprintf(
+                    'Did not find path %s in structure %s',
+                    json_encode($keys),
+                    json_encode($data)
+                ));
+            }
+
+            ++$depth;
+        }
+
+        return $accessor->getData();
     }
 
     /**

@@ -146,6 +146,37 @@ class Accessor
     }
 
     /**
+     * @param string|int $key
+     *
+     * @return bool
+     */
+    public function remove($key)
+    {
+        $unsetter = 'unset'.ucfirst($key);
+        $remover  = 'remove'.ucfirst($key);
+
+        if (is_array($this->current) && array_key_exists($key, $this->current)) {
+            unset($this->current[$key]);
+
+            return true;
+        } else if (is_object($this->current) && isset($this->current->$key)) {
+            unset($this->current->$key);
+
+            return true;
+        } else if ($this->isObjectWithMethod($this->current, $unsetter)) {
+            $this->current->$unsetter();
+
+            return true;
+        } else if ($this->isObjectWithMethod($this->current, $remover)) {
+            $this->current->$remover();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @param mixed      $data
      * @param string|int $key
      *
