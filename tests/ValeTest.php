@@ -121,6 +121,16 @@ class ValeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers Cocur\Vale\Vale::getValue()
+     */
+    public function getValueReturnsValueFromArrayIfKeysIsString()
+    {
+        $this->assertSame('Tyrion', $this->vale->getValue(['name' => 'Tyrion'], 'name'));
+        $this->assertSame('Tyrion', $this->vale->getValue(['Tyrion'], 0));
+    }
+
+    /**
+     * @test
      * @covers Cocur\Vale\Vale::setValue()
      */
     public function setValueReturnsDataIfKeysIsEmpty()
@@ -145,6 +155,19 @@ class ValeTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->vale->setValue($data, ['family', 'name'], 'Baratheon');
         $this->assertSame('Baratheon', $result['family']['name'], 'Sets value in nested array');
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Vale::setValue()
+     */
+    public function setValueIfKeysIsString()
+    {
+        $result = $this->vale->setValue(['name' => 'Tyrion'], 'name', 'Cersei');
+        $this->assertSame('Cersei', $result['name'], 'Sets value in flat array');
+
+        $result = $this->vale->setValue(['Tyrion'], 0, 'Cersei');
+        $this->assertSame('Cersei', $result[0], 'Sets value in flat array');
     }
 
     /**
@@ -176,7 +199,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
      */
     public function hasValueReturnsTrueIfKeysIsEmpty()
     {
-        $this->assertTrue($this->vale->hasValue(['foo' => 'bar'], ''));
+        $this->assertTrue($this->vale->hasValue(['name' => 'Tyrion'], ''));
     }
 
     /**
@@ -185,8 +208,18 @@ class ValeTest extends \PHPUnit_Framework_TestCase
      */
     public function hasValueReturnsTrueIfValueExists()
     {
-        $this->assertTrue($this->vale->hasValue(['foo' => 'bar'], ['foo']));
+        $this->assertTrue($this->vale->hasValue(['name' => 'Tyrion'], ['name']));
         $this->assertTrue($this->vale->hasValue(['level1' => ['level2' => 'bar']], ['level1', 'level2']));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Vale::hasValue()
+     */
+    public function hasValueIfKeysIsNotAnArray()
+    {
+        $this->assertTrue($this->vale->hasValue(['name' => 'Tyrion'], 'name'));
+        $this->assertTrue($this->vale->hasValue(['Tyrion'], 0));
     }
 
     /**
@@ -226,6 +259,19 @@ class ValeTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->vale->removeValue($data, ['family', 'name']);
         $this->assertFalse(isset($result['family']['name']), 'Remove value in nested array');
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Vale::removeValue()
+     */
+    public function removeValueRemovesValueIfKeysIsNotAnArray()
+    {
+        $result = $this->vale->removeValue(['name' => 'Tyrion'], 'name');
+        $this->assertFalse(isset($result['name']), 'Remove value in flat array');
+
+        $result = $this->vale->removeValue(['Tyrion'], 0);
+        $this->assertFalse(isset($result[0]), 'Remove value in flat array');
     }
 
     /**

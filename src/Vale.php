@@ -32,9 +32,9 @@ class Vale
     }
 
     /**
-     * @param mixed $data
-     * @param array $keys
-     * @param mixed $default
+     * @param mixed            $data
+     * @param array|string|int $keys
+     * @param mixed            $default
      *
      * @return mixed
      */
@@ -44,9 +44,9 @@ class Vale
     }
 
     /**
-     * @param mixed $data
-     * @param array $keys
-     * @param mixed $value
+     * @param mixed            $data
+     * @param array|string|int $keys
+     * @param mixed            $value
      *
      * @return mixed
      */
@@ -56,8 +56,8 @@ class Vale
     }
 
     /**
-     * @param mixed $data
-     * @param array $keys
+     * @param mixed            $data
+     * @param array|string|int $keys
      *
      * @return bool
      */
@@ -67,8 +67,8 @@ class Vale
     }
 
     /**
-     * @param mixed $data
-     * @param array $keys
+     * @param mixed            $data
+     * @param array|string|int $keys
      *
      * @return mixed
      */
@@ -78,9 +78,9 @@ class Vale
     }
 
     /**
-     * @param mixed      $data
-     * @param array      $keys
-     * @param mixed|null $default
+     * @param mixed            $data
+     * @param array|string|int $keys
+     * @param mixed|null       $default
      *
      * @return mixed
      */
@@ -88,6 +88,9 @@ class Vale
     {
         if ($this->isKeysEmpty($keys)) {
             return $data;
+        }
+        if (!is_array($keys)) {
+            $keys = [$keys];
         }
 
         $accessor = new Accessor($data);
@@ -101,9 +104,9 @@ class Vale
     }
 
     /**
-     * @param mixed $data
-     * @param array $keys
-     * @param mixed $value
+     * @param mixed            $data
+     * @param array|string|int $keys
+     * @param mixed            $value
      *
      * @return mixed
      */
@@ -111,6 +114,9 @@ class Vale
     {
         if ($this->isKeysEmpty($keys)) {
             return $data;
+        }
+        if (!is_array($keys)) {
+            $keys = [$keys];
         }
 
         $accessor = new Accessor($data);
@@ -150,6 +156,9 @@ class Vale
         if ($this->isKeysEmpty($keys)) {
             return true;
         }
+        if (!is_array($keys)) {
+            $keys = [$keys];
+        }
 
         $accessor = new Accessor($data);
         $keyCount = count($keys);
@@ -166,8 +175,8 @@ class Vale
     }
 
     /**
-     * @param mixed $data
-     * @param array $keys
+     * @param mixed            $data
+     * @param array|string|int $keys
      *
      * @return mixed
      */
@@ -175,6 +184,9 @@ class Vale
     {
         if ($this->isKeysEmpty($keys)) {
             return null;
+        }
+        if (!is_array($keys)) {
+            $keys = [$keys];
         }
 
         $accessor = new Accessor($data);
