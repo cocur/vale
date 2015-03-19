@@ -152,10 +152,14 @@ class Vale
         }
 
         $accessor = new Accessor($data);
+        $keyCount = count($keys);
+        $depth    = 0;
         foreach ($keys as $key) {
-            if ($accessor->has($key) === false) {
+            if (($depth+1 === $keyCount && $accessor->has($key) === false) || $accessor->to($key) === false) {
                 return false;
             }
+
+            ++$depth;
         }
 
         return true;

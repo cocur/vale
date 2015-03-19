@@ -186,6 +186,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     public function hasValueReturnsTrueIfValueExists()
     {
         $this->assertTrue($this->vale->hasValue(['foo' => 'bar'], ['foo']));
+        $this->assertTrue($this->vale->hasValue(['level1' => ['level2' => 'bar']], ['level1', 'level2']));
     }
 
     /**
@@ -195,6 +196,8 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     public function hasValueReturnsFalseIfValueNotExists()
     {
         $this->assertFalse($this->vale->hasValue(['foo' => 'bar'], ['invalid']));
+        $this->assertFalse($this->vale->hasValue(['level1' => []], ['level1', 'level2']));
+        $this->assertFalse($this->vale->hasValue([], ['level1', 'level2']));
     }
 
     /**
