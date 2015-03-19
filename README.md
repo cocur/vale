@@ -102,12 +102,12 @@ key does not exist. They always return `true` if `$keys` is empty. `hasValue()` 
 
 1. `$data[$key]`
 2. `$data->$key`
-3. `$data->$key()`
-4. `$data->set$Key()`
-5. `$data->get$Key()`
-6. `$data->has$Key()`
-7. `$data->has$Key()`
-8. `$data->is$Key()`
+3. `$data->has$Key()`
+4. `$data->has($key)`
+5. `$data->is$Key()`
+6. `$data->is($key)`
+7. `$data->$key()`
+8. `$data->get$Key()`
 
 ### Remove
 

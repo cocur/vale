@@ -613,11 +613,24 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      */
     public function hasReturnsTrueIfObjectHasMethod()
     {
-        eval('class AccessorTestMockHasReturnsTrueIfObjectHasMethod { public function level1() {} }');
+        eval('class AccessorTestMockHasReturnsTrueIfObjectHasMethod { public function level1() { return 42; } }');
         $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasMethod();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->has('level1'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::has()
+     */
+    public function hasReturnsFalseIfObjectHasMethodAndReturnsFalse()
+    {
+        eval('class AccessorTestMockHasReturnsFalseIfObjectHasMethodAndReturnsFalse { public function level1() { return false; } }');
+        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasMethodAndReturnsFalse();
+        $accessor = new Accessor($obj);
+
+        $this->assertFalse($accessor->has('level1'));
     }
 
     /**
@@ -650,39 +663,26 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      * @test
      * @covers Cocur\Vale\Accessor::has()
      */
-    public function hasReturnsTrueIfObjectHasSetter()
-    {
-        eval('class AccessorTestMockHasReturnsTrueIfObjectHasSetter { public function setLevel1() {} }');
-        $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasSetter();
-        $accessor = new Accessor($obj);
-
-        $this->assertTrue($accessor->has('level1'));
-    }
-
-    /**
-     * @test
-     * @covers Cocur\Vale\Accessor::has()
-     */
-    public function hasReturnsFalseIfObjectDoesNotHasSetter()
-    {
-        eval('class AccessorTestMockHasReturnsFalseIfObjectDoesNotHasSetter { private $level1; }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectDoesNotHasSetter();
-        $accessor = new Accessor($obj);
-
-        $this->assertFalse($accessor->has('level1'));
-    }
-
-    /**
-     * @test
-     * @covers Cocur\Vale\Accessor::has()
-     */
     public function hasReturnsTrueIfObjectHasGetter()
     {
-        eval('class AccessorTestMockHasReturnsTrueIfObjectHasGetter { public function getLevel1() {} }');
+        eval('class AccessorTestMockHasReturnsTrueIfObjectHasGetter { public function getLevel1() { return 42; } }');
         $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasGetter();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->has('level1'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::has()
+     */
+    public function hasReturnsFalseIfObjectHasGetterAndReturnsFalse()
+    {
+        eval('class AccessorTestMockHasReturnsFalseIfObjectHasGetterAndReturnsFalse { public function getLevel1() { return null; } }');
+        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasGetterAndReturnsFalse();
+        $accessor = new Accessor($obj);
+
+        $this->assertFalse($accessor->has('level1'));
     }
 
     /**
@@ -702,13 +702,52 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      * @test
      * @covers Cocur\Vale\Accessor::has()
      */
+    public function hasReturnsTrueIfObjectHasGet()
+    {
+        eval('class AccessorTestMockHasReturnsTrueIfObjectHasGet { public function get($k) { return 42; } }');
+        $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasGet();
+        $accessor = new Accessor($obj);
+
+        $this->assertTrue($accessor->has('level1'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::has()
+     */
+    public function hasReturnsFalseIfObjectHasGetAndReturnsFalse()
+    {
+        eval('class AccessorTestMockHasReturnsFalseIfObjectHasGetAndReturnsFalse { public function get($k) { return null; } }');
+        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasGetAndReturnsFalse();
+        $accessor = new Accessor($obj);
+
+        $this->assertFalse($accessor->has('level1'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::has()
+     */
     public function hasReturnsTrueIfObjectHasHasser()
     {
-        eval('class AccessorTestMockHasReturnsTrueIfObjectHasHasser { public function hasLevel1() {} }');
+        eval('class AccessorTestMockHasReturnsTrueIfObjectHasHasser { public function hasLevel1() { return true; } }');
         $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasHasser();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->has('level1'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::has()
+     */
+    public function hasReturnsFalseIfObjectHasHasserAndReturnsFalse()
+    {
+        eval('class AccessorTestMockHasReturnsFalseIfObjectHasHasserAndReturnsFalse { public function hasLevel1() { return false; } }');
+        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasHasserAndReturnsFalse();
+        $accessor = new Accessor($obj);
+
+        $this->assertFalse($accessor->has('level1'));
     }
 
     /**
@@ -728,9 +767,35 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      * @test
      * @covers Cocur\Vale\Accessor::has()
      */
+    public function hasReturnsTrueIfObjectHasHas()
+    {
+        eval('class AccessorTestMockHasReturnsTrueIfObjectHasHas { public function has($k) { return true; } }');
+        $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasHas();
+        $accessor = new Accessor($obj);
+
+        $this->assertTrue($accessor->has('level1'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::has()
+     */
+    public function hasReturnsFalseIfObjectHasHasAndReturnsFalse()
+    {
+        eval('class AccessorTestMockHasReturnsFalseIfObjectHasHasAndReturnsFalse { public function has($k) { return false; } }');
+        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasHasAndReturnsFalse();
+        $accessor = new Accessor($obj);
+
+        $this->assertFalse($accessor->has('level1'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::has()
+     */
     public function hasReturnsTrueIfObjectHasIsser()
     {
-        eval('class AccessorTestMockHasReturnsTrueIfObjectHasIsser { public function isLevel1() {} }');
+        eval('class AccessorTestMockHasReturnsTrueIfObjectHasIsser { public function isLevel1() { return true; } }');
         $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasIsser();
         $accessor = new Accessor($obj);
 
@@ -741,10 +806,49 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      * @test
      * @covers Cocur\Vale\Accessor::has()
      */
+    public function hasReturnsFalseIfObjectHasIsserAndReturnsFalse()
+    {
+        eval('class AccessorTestMockHasReturnsFalseIfObjectHasIsserAndReturnsFalse { public function isLevel1() { return false;} }');
+        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasIsserAndReturnsFalse();
+        $accessor = new Accessor($obj);
+
+        $this->assertFalse($accessor->has('level1'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::has()
+     */
     public function hasReturnsFalseIfObjectDoesNotHasIsser()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectDoesNotHasIsser { private $level1; }');
         $obj = new \AccessorTestMockHasReturnsFalseIfObjectDoesNotHasIsser();
+        $accessor = new Accessor($obj);
+
+        $this->assertFalse($accessor->has('level1'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::has()
+     */
+    public function hasReturnsTrueIfObjectHasIs()
+    {
+        eval('class AccessorTestMockHasReturnsTrueIfObjectHasIs { public function is() { return true; } }');
+        $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasIs();
+        $accessor = new Accessor($obj);
+
+        $this->assertTrue($accessor->has('level1'));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::has()
+     */
+    public function hasReturnsFalseIfObjectHasIsAndReturnsFalse()
+    {
+        eval('class AccessorTestMockHasReturnsFalseIfObjectHasIsAndReturnsFalse { public function is() { return false;} }');
+        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasIsAndReturnsFalse();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
