@@ -56,6 +56,17 @@ class Vale
     }
 
     /**
+     * @param mixed $data
+     * @param array $keys
+     *
+     * @return bool
+     */
+    public static function has($data, $keys)
+    {
+        return self::instance()->hasValue($data, $keys);
+    }
+
+    /**
      * @param mixed      $data
      * @param array      $keys
      * @param mixed|null $default
@@ -115,6 +126,28 @@ class Vale
         }
 
         return $accessor->getData();
+    }
+
+    /**
+     * @param mixed $data
+     * @param array $keys
+     *
+     * @return bool
+     */
+    public function hasValue($data, $keys)
+    {
+        if ($this->isKeysEmpty($keys)) {
+            return true;
+        }
+
+        $accessor = new Accessor($data);
+        foreach ($keys as $key) {
+            if ($accessor->has($key) === false) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

@@ -56,6 +56,15 @@ class ValeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers Cocur\Vale\Vale::has()
+     */
+    public function hasReturnsIfValueExists()
+    {
+        $this->assertTrue(Vale::has(['name' => 'Tyrion'], ['name']));
+    }
+
+    /**
+     * @test
      * @covers Cocur\Vale\Vale::getValue()
      * @covers Cocur\Vale\Vale::isKeysEmpty()
      */
@@ -148,5 +157,32 @@ class ValeTest extends \PHPUnit_Framework_TestCase
     {
         // This should really only happen if an element in the middle of the path is a scalar value.
         $this->vale->setValue(['family' => 'Lannister'], ['family', 'seat'], 'Casterly Rock');
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Vale::hasValue()
+     */
+    public function hasValueReturnsTrueIfKeysIsEmpty()
+    {
+        $this->assertTrue($this->vale->hasValue(['foo' => 'bar'], ''));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Vale::hasValue()
+     */
+    public function hasValueReturnsTrueIfValueExists()
+    {
+        $this->assertTrue($this->vale->hasValue(['foo' => 'bar'], ['foo']));
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Vale::hasValue()
+     */
+    public function hasValueReturnsFalseIfValueNotExists()
+    {
+        $this->assertFalse($this->vale->hasValue(['foo' => 'bar'], ['invalid']));
     }
 }

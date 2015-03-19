@@ -125,6 +125,27 @@ class Accessor
     }
 
     /**
+     * @param string|int $key
+     *
+     * @return bool
+     */
+    public function has($key)
+    {
+        $setter = 'set'.ucfirst($key);
+        $getter = 'get'.ucfirst($key);
+        $hasser = 'has'.ucfirst($key);
+        $isser  = 'is'.ucfirst($key);
+
+        return (is_array($this->current) && array_key_exists($key, $this->current))
+            || is_object($this->current) && isset($this->current->$key)
+            || $this->isObjectWithMethod($this->current, $key)
+            || $this->isObjectWithMethod($this->current, $setter)
+            || $this->isObjectWithMethod($this->current, $getter)
+            || $this->isObjectWithMethod($this->current, $hasser)
+            || $this->isObjectWithMethod($this->current, $isser);
+    }
+
+    /**
      * @param mixed      $data
      * @param string|int $key
      *
