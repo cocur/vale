@@ -66,31 +66,21 @@ class Accessor
 
         if (is_array($this->current) && array_key_exists($key, $this->current)) {
             $this->current = &$this->current[$key];
-
-            return true;
         } else if ($this->isObjectWithMethod($this->current, $key)) {
             $this->current = $this->current->$key();
-
-            return true;
         } else if ($this->isObjectWithMethod($this->current, $getter)) {
             $this->current = $this->current->$getter();
-
-            return true;
         } else if ($this->isObjectWithMethod($this->current, $hasser)) {
             $this->current = $this->current->$hasser();
-
-            return true;
         } else if ($this->isObjectWithMethod($this->current, $isser)) {
             $this->current = $this->current->$isser();
-
-            return true;
         } else if (is_object($this->current) && isset($this->current->$key)) {
             $this->current = $this->current->$key;
-
-            return true;
+        } else {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -105,23 +95,17 @@ class Accessor
 
         if (is_array($this->current)) {
             $this->current[$key] = $value;
-
-            return true;
         } else if ($this->isObjectWithMethod($this->current, $key)) {
             $this->current->$key($value);
-
-            return true;
         } else if ($this->isObjectWithMethod($this->current, $setter)) {
             $this->current->$setter($value);
-
-            return true;
         } else if (is_object($this->current)) {
             $this->current->$key = $value;
-
-            return true;
+        } else {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -157,23 +141,17 @@ class Accessor
 
         if (is_array($this->current) && array_key_exists($key, $this->current)) {
             unset($this->current[$key]);
-
-            return true;
         } else if (is_object($this->current) && isset($this->current->$key)) {
             unset($this->current->$key);
-
-            return true;
         } else if ($this->isObjectWithMethod($this->current, $unsetter)) {
             $this->current->$unsetter();
-
-            return true;
         } else if ($this->isObjectWithMethod($this->current, $remover)) {
             $this->current->$remover();
-
-            return true;
+        } else {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
