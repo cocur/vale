@@ -68,30 +68,14 @@ class Vale
             return $data;
         }
 
-        $current = $data;
+        $accessor = new Accessor($data);
         foreach ($keys as $key) {
-            $getter = 'get'.ucfirst($key);
-            $hasser = 'has'.ucfirst($key);
-            $isser  = 'is'.ucfirst($key);
-
-            if (is_array($current) && array_key_exists($key, $current)) {
-                $current = $current[$key];
-            } else if ($this->isObjectWithMethod($current, $key)) {
-                $current = $current->$key();
-            } else if ($this->isObjectWithMethod($current, $getter)) {
-                $current = $current->$getter();
-            } else if ($this->isObjectWithMethod($current, $hasser)) {
-                $current = $current->$hasser();
-            } else if ($this->isObjectWithMethod($current, $isser)) {
-                $current = $current->$isser();
-            } else if (is_object($current) && isset($current->$key)) {
-                $current = $current->$key;
-            } else {
+            if ($accessor->to($key) === false) {
                 return $default;
             }
         }
 
-        return $current;
+        return $accessor->getCurrent();
     }
 
     /**
@@ -107,65 +91,30 @@ class Vale
             return $data;
         }
 
-        if (is_array($data)) {
-            $current = &$data;
-        } else {
-            $current = $data;
-        }
+        $accessor = new Accessor($data);
         $depth    = 0;
         $keyCount = count($keys);
         foreach ($keys as $key) {
-            $setter = 'set'.ucfirst($key);
-            $getter = 'get'.ucfirst($key);
-            $hasser = 'has'.ucfirst($key);
-            $isser  = 'is'.ucfirst($key);
-
-            if (is_array($current) && array_key_exists($key, $current)) {
-                $current = &$current[$key];
-            } else if (is_array($current) && $depth+1 === $keyCount) {
-                $current[$key] = null;
-                $current       = &$current[$key];
-            } else if ($this->isObjectWithMethod($current, $key) && $depth+1 === $keyCount) {
-                $current->$key($value);
-                $value = null;
-            } else if ($this->isObjectWithMethod($current, $setter) && $depth+1 === $keyCount) {
-                $current->$setter($value);
-                $value = null;
-            } else if ($this->isObjectWithMethod($current, $key)) {
-                $current = $current->$key();
-            } else if ($this->isObjectWithMethod($current, $getter)) {
-                $current = $current->$getter();
-            } else if ($this->isObjectWithMethod($current, $hasser)) {
-                $current = $current->$hasser();
-            } else if ($this->isObjectWithMethod($current, $isser)) {
-                $current = $current->$isser();
-            } else if (is_object($current) && isset($current->$key)) {
-                $current = &$current->$key;
-            } else if (is_object($current) && $depth+1 === $keyCount) {
-                $current->$key = null;
-                $current       = &$current->$key;
-            } else {
-                throw new InvalidArgumentException(sprintf('Did not find path %s in structure %s', json_encode($keys), json_encode($data)));
+            if ($depth+1 === $keyCount) {
+                if ($accessor->set($key, $value) === false) {
+                    throw new InvalidArgumentException(sprintf(
+                        'Did not set path %s in structure %s',
+                        json_encode($keys),
+                        json_encode($data)
+                    ));
+                }
+            } else if ($accessor->to($key) === false) {
+                throw new InvalidArgumentException(sprintf(
+                    'Did not find path %s in structure %s',
+                    json_encode($keys),
+                    json_encode($data)
+                ));
             }
+
             ++$depth;
         }
 
-        if ($value !== null) {
-            $current = $value;
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param mixed  $data
-     * @param string $key
-     *
-     * @return bool
-     */
-    protected function isObjectWithMethod($data, $key)
-    {
-        return is_object($data) && method_exists($data, $key) && is_callable([$data, $key]);
+        return $accessor->getData();
     }
 
     /**
