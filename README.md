@@ -16,7 +16,7 @@ Features
 
 - Get, set, unset and check the existence of values in deeply nested arrays and objects
 - Works with arbitrary arrays and objects and any combination of them
-- Use getters, setters, unsetters, hassers and issers in objects
+- Uses getters, setters, unsetters, hassers and issers in objects
 
 ```php
 $name = Vale::get($families, ['lannister', 'leader', 'children', 2, 'name']);
@@ -65,7 +65,7 @@ $vale->removeValue($data, ['name']); // -> []
 ```
 
 For flat arrays and objects (that is, arrays and objects with only one level of depth) you can also use a string
-or integer as key. This works for both the static as well as the instance methods.
+or integer as key. This works for the static as well as the instance methods.
 
 ```php
 Vale::get(['name' => 'Tyrion'], 'name'); // -> "Tyrion"
@@ -83,15 +83,10 @@ mixed getValue(mixed $data, array|string|int $keys, mixed $default = null)
 ```
 
 - `$data` is an arbitrary data structure
-- `$keys` is an array of keys to access the value. If the length is `1`, `$keys` can be a string or int; if it is an
-  empty array, an empty string or `null`, the original `$data` is returned
+- `$keys` is an array of keys to access the value. If the length is `1`, `$keys` can be a string or int
 - `$default` is the default value that is returned if the value does not exist in `$data`
 
-
-
-```php
-Vale::get(['name' => 'Tyrion'], []); // -> ['name' => 'Tyrion']
-```
+Returns the element at the given position or the original `$data` if `$keys` is empty.
 
 Vale tries different ways to access the element specified in `$keys`. The following variants are tried in this order:
 
@@ -118,7 +113,7 @@ mixed setValue(mixed $data, array|string|int $keys, mixed $value)
 - `$keys` is an array of keys to access the value. If the length is `1`, `$keys` can be a string or int
 - `$value` is the value for the element
 
-The modified `$data` is returned
+Returns the modified `$data`
 
 *Set* utilizes the same means of navigating through nested data structures as [Get](#get) and tries the following
 variants to set the value:
@@ -141,7 +136,7 @@ bool hasValue(mixed $data, array|string|int $keys)
 - `$data` is an arbitrary data structure
 - `$keys` is an array of keys to access the value. If the length is `1`, `$keys` can be a string or int
 
-`true` is returned when the element exists, `false` otherwise.
+Returns `true` if the element exists, `false` otherwise.
 
 *Has* utilizes the same means of navigating through nested data structures as [Get](#get) and tries the following
 variants to check the existence of an element:
@@ -171,7 +166,7 @@ mixed removeValue(mixed $data, array|string|int $keys)
 - `$data` is an arbitrary data structure
 - `$keys` is an array of keys to access the value. If the length is `1`, `$keys` can be a string or int
 
-The modified `$data` is returned or `null` if `$keys` is empty
+Returns the modified `$data` or `null` if `$keys` is empty
 
 *Remove* utilizes the same means of navigating through nested data structures as [Get](#get) and tries the following
 variants to remove the element from the data structure:
