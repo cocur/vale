@@ -92,7 +92,8 @@ the following versions are tried.
 1. `$data[$key] = $value`
 2. `$data->$key($value)`
 3. `$data->set$Key($value)`
-4. `$data->$key = $value` (if `$key` does not exists in `$data`)
+4. `$data->set($key, $value)`
+5. `$data->$key = $value`
 
 ### Has
 

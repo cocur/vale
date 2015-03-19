@@ -540,6 +540,20 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      * @test
      * @covers Cocur\Vale\Accessor::set()
      */
+    public function setSetsValueInObjectUsingSet()
+    {
+        eval('class AccessorTestMockSetSetsValueInObjectUsingSet { protected $v; public function set($k, $v) { $this->v = $v; } function getLevel1() { return $this->v; } }');
+        $obj = new \AccessorTestMockSetSetsValueInObjectUsingSet();
+        $accessor = new Accessor($obj);
+
+        $this->assertTrue($accessor->set('level1', 'foo'));
+        $this->assertSame('foo', $accessor->getData()->getLevel1());
+    }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::set()
+     */
     public function setReturnsFalseIfValueCouldNotBeSet()
     {
         $accessor = new Accessor('invalid');

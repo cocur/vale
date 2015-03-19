@@ -105,6 +105,8 @@ class Accessor
             $this->current->$key($value);
         } else if ($this->isObjectWithMethod($this->current, $setter)) {
             $this->current->$setter($value);
+        } else if ($this->isObjectWithMethod($this->current, 'set')) {
+            $this->current->set($key, $value);
         } else if (is_object($this->current)) {
             $this->current->$key = $value;
         } else {
