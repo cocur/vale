@@ -929,4 +929,18 @@ class AccessorTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($accessor->remove('level1'));
         $this->assertFalse($accessor->getData()->is());
     }
+
+    /**
+     * @test
+     * @covers Cocur\Vale\Accessor::remove()
+     */
+    public function removeRemovesValueFromObjectUsingRemove()
+    {
+        eval('class AccessorTestMockRemovesValueFromObjectUsingRemove { private $v; public function remove($v) { unset($this->v); } public function is() { return isset($this->v); } }');
+        $obj = new \AccessorTestMockRemovesValueFromObjectUsingRemove();
+        $accessor = new Accessor($obj);
+
+        $this->assertTrue($accessor->remove('level1'));
+        $this->assertFalse($accessor->getData()->is());
+    }
 }

@@ -127,7 +127,7 @@ class Accessor
         $hasser = 'has'.ucfirst($key);
         $isser  = 'is'.ucfirst($key);
 
-        return (is_array($this->current) && array_key_exists($key, $this->current))
+        return (is_array($this->current) && isset($this->current[$key]))
             || is_object($this->current) && isset($this->current->$key)
             || ($this->isObjectWithMethod($this->current, $hasser) && $this->current->$hasser())
             || ($this->isObjectWithMethod($this->current, 'has') && $this->current->has($key))
@@ -156,6 +156,8 @@ class Accessor
             $this->current->$unsetter();
         } else if ($this->isObjectWithMethod($this->current, $remover)) {
             $this->current->$remover();
+        } else if ($this->isObjectWithMethod($this->current, 'remove')) {
+            $this->current->remove($key);
         } else {
             return false;
         }

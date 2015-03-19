@@ -100,8 +100,8 @@ the following versions are tried.
 The `has()` and `hasValue()` methods return `true` if the given key exists in the array or object and `false` if the
 key does not exist. They always return `true` if `$keys` is empty. `hasValue()` checks the following versions:
 
-1. `$data[$key]`
-2. `$data->$key`
+1. `isset($data[$key])`
+2. `isset($data->$key)`
 3. `$data->has$Key()`
 4. `$data->has($key)`
 5. `$data->is$Key()`
@@ -114,10 +114,11 @@ key does not exist. They always return `true` if `$keys` is empty. `hasValue()` 
 The `remove()` and `removeValue()` method removes the given key from the array or object. If the keys are empty then
 `null` is returned (that is, they remove the whole input). The following versions are tried:
 
-1. `$data[$key]`
-2. `$data->$key`
+1. `unset($data[$key])`
+2. `unset($data->$key)`
 3. `$data->unset$Key()`
 4. `$data->remove$Key()`
+5. `$data->remove($key)`
 
 
 Change Log
