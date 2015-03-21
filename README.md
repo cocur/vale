@@ -209,6 +209,16 @@ Name: I used A Song of Ice and Fire related strings for testing and due to havin
 up with [Vale](http://awoiaf.westeros.org/index.php/Vale_of_Arryn).
 
 
+Author
+------
+
+Vale have been developed by [Florian Eckerstorfer](https://florian.ec) ([Twitter](https://twitter.com/Florian_)) in
+Vienna, Europe.
+
+> Vale is a project of [Cocur](http://cocur.co). You can contact us on Twitter:
+> [**@cocurco**](https://twitter.com/cocurco)
+
+
 License
 -------
 
