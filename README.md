@@ -183,6 +183,13 @@ variants to remove the element from the data structure:
 Change Log
 ----------
 
+### Version 0.2 (21 March 2015)
+
+- Add `has()` method to check if key exists
+- Add `remove()` method to remove key from item
+- Improved navigating through complex structures
+- Major refactoring, making the code more reusable and testable
+
 ### Version 0.1 (15 March 2015)
 
 - Initial release
