@@ -7,7 +7,7 @@ Vale
 [![Build Status](https://img.shields.io/travis/cocur/vale/master.svg?style=flat)](https://travis-ci.org/cocur/vale)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/cocur/vale.svg?style=flat)](https://scrutinizer-ci.com/g/cocur/vale/?branch=master)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/cocur/vale.svg?style=flat)](https://scrutinizer-ci.com/g/cocur/vale/?branch=master)
- 
+
 Developed by [Florian Eckerstorfer](https://florian.ec) in Vienna, Europe.
 
 
@@ -183,7 +183,7 @@ variants to remove the element from the data structure:
 Change Log
 ----------
 
-### Version 0.2 (21 March 2015)
+### Version 0.2 (24 March 2015)
 
 - Add `has()` method to check if key exists
 - Add `remove()` method to remove key from item
@@ -198,7 +198,7 @@ Change Log
 Motivation
 ----------
 
-Vale was largely motivated by the need for a simpler, but faster implementation of the 
+Vale was largely motivated by the need for a simpler, but faster implementation of the
 [Symfony PropertyAccess](http://symfony.com/doc/current/components/property_access/introduction.html) component.
 PropertyAccess is great when used in templates or config files, that is, code that is compiled and cached before
 being executes. However, the heavy use of string parsing and reflection make PropertyAccess not suitable for code that
@@ -222,5 +222,5 @@ Vienna, Europe.
 License
 -------
 
-The MIT license applies to Vale. For the full copyright and license information, please view the 
+The MIT license applies to Vale. For the full copyright and license information, please view the
 [LICENSE](https://github.com/cocur/vale/blob/master/LICENSE) file distributed with this source code.
