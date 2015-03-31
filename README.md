@@ -201,8 +201,8 @@ Motivation
 Vale was largely motivated by the need for a simpler, but faster implementation of the
 [Symfony PropertyAccess](http://symfony.com/doc/current/components/property_access/introduction.html) component.
 PropertyAccess is great when used in templates or config files, that is, code that is compiled and cached before
-being executes. However, the heavy use of string parsing and reflection make PropertyAccess not suitable for code that
-is compiled. Another source of inspiration was the [`get-in`](https://github.com/igorw/get-in) library by Igor
+being executed. However, the heavy use of string parsing and reflection make PropertyAccess not suitable for code that
+is not compiled. Another source of inspiration was the [`get-in`](https://github.com/igorw/get-in) library by Igor
 Wiedler for array traversal.
 
 Name: I used A Song of Ice and Fire related strings for testing and due to having to write `value` quite often, I came
