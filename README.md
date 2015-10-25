@@ -5,8 +5,10 @@ Vale
   deeply nested arrays and objects.
 
 [![Build Status](https://img.shields.io/travis/cocur/vale/master.svg?style=flat)](https://travis-ci.org/cocur/vale)
+[![Windows Build status](https://ci.appveyor.com/api/projects/status/5jgf2sobkf9pfwjd?svg=true)](https://ci.appveyor.com/project/florianeckerstorfer/vale)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/cocur/vale.svg?style=flat)](https://scrutinizer-ci.com/g/cocur/vale/?branch=master)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/cocur/vale.svg?style=flat)](https://scrutinizer-ci.com/g/cocur/vale/?branch=master)
+[![StyleCI](https://styleci.io/repos/32226987/shield)](https://styleci.io/repos/32226987)
 
 Developed by [Florian Eckerstorfer](https://florian.ec) in Vienna, Europe.
 
