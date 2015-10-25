@@ -3,9 +3,8 @@
 namespace Cocur\Vale;
 
 /**
- * Accessor
+ * Accessor.
  *
- * @package   Cocur\Vale
  * @author    Florian Eckerstorfer <florian@eckerstorfer.co>
  * @copyright 2015 Florian Eckerstorfer
  */
@@ -66,21 +65,21 @@ class Accessor
 
         if (is_array($this->current) && array_key_exists($key, $this->current)) {
             $this->current = &$this->current[$key];
-        } else if ($this->isObjectWithMethod($this->current, $key)) {
+        } elseif ($this->isObjectWithMethod($this->current, $key)) {
             $this->current = $this->current->$key();
-        } else if ($this->isObjectWithMethod($this->current, $getter)) {
+        } elseif ($this->isObjectWithMethod($this->current, $getter)) {
             $this->current = $this->current->$getter();
-        } else if ($this->isObjectWithMethod($this->current, 'get')) {
+        } elseif ($this->isObjectWithMethod($this->current, 'get')) {
             $this->current = $this->current->get($key);
-        } else if ($this->isObjectWithMethod($this->current, $hasser)) {
+        } elseif ($this->isObjectWithMethod($this->current, $hasser)) {
             $this->current = $this->current->$hasser();
-        } else if ($this->isObjectWithMethod($this->current, 'has')) {
+        } elseif ($this->isObjectWithMethod($this->current, 'has')) {
             $this->current = $this->current->has($key);
-        } else if ($this->isObjectWithMethod($this->current, $isser)) {
+        } elseif ($this->isObjectWithMethod($this->current, $isser)) {
             $this->current = $this->current->$isser();
-        } else if ($this->isObjectWithMethod($this->current, 'is')) {
+        } elseif ($this->isObjectWithMethod($this->current, 'is')) {
             $this->current = $this->current->is($key);
-        } else if (is_object($this->current) && isset($this->current->$key)) {
+        } elseif (is_object($this->current) && isset($this->current->$key)) {
             $this->current = $this->current->$key;
         } else {
             return false;
@@ -101,13 +100,13 @@ class Accessor
 
         if (is_array($this->current)) {
             $this->current[$key] = $value;
-        } else if ($this->isObjectWithMethod($this->current, $key)) {
+        } elseif ($this->isObjectWithMethod($this->current, $key)) {
             $this->current->$key($value);
-        } else if ($this->isObjectWithMethod($this->current, $setter)) {
+        } elseif ($this->isObjectWithMethod($this->current, $setter)) {
             $this->current->$setter($value);
-        } else if ($this->isObjectWithMethod($this->current, 'set')) {
+        } elseif ($this->isObjectWithMethod($this->current, 'set')) {
             $this->current->set($key, $value);
-        } else if (is_object($this->current)) {
+        } elseif (is_object($this->current)) {
             $this->current->$key = $value;
         } else {
             return false;
@@ -150,13 +149,13 @@ class Accessor
 
         if (is_array($this->current) && array_key_exists($key, $this->current)) {
             unset($this->current[$key]);
-        } else if (is_object($this->current) && isset($this->current->$key)) {
+        } elseif (is_object($this->current) && isset($this->current->$key)) {
             unset($this->current->$key);
-        } else if ($this->isObjectWithMethod($this->current, $unsetter)) {
+        } elseif ($this->isObjectWithMethod($this->current, $unsetter)) {
             $this->current->$unsetter();
-        } else if ($this->isObjectWithMethod($this->current, $remover)) {
+        } elseif ($this->isObjectWithMethod($this->current, $remover)) {
             $this->current->$remover();
-        } else if ($this->isObjectWithMethod($this->current, 'remove')) {
+        } elseif ($this->isObjectWithMethod($this->current, 'remove')) {
             $this->current->remove($key);
         } else {
             return false;

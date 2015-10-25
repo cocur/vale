@@ -1,15 +1,13 @@
 <?php
 
-
 namespace Cocur\Vale;
 
 use PHPUnit_Framework_TestCase;
 use stdClass;
 
 /**
- * AccessorTest
+ * AccessorTest.
  *
- * @package   Cocur\Vale
  * @author    Florian Eckerstorfer <florian@eckerstorfer.co>
  * @copyright 2015 Florian Eckerstorfer
  * @group     unit
@@ -27,6 +25,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame('bar', $accessor->getData()['foo']);
     }
+
     /**
      * @test
      * @covers Cocur\Vale\Accessor::__construct()
@@ -34,7 +33,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      */
     public function getDataReturnsObjectData()
     {
-        $obj = new stdClass();
+        $obj      = new stdClass();
         $obj->foo = 'bar';
         $accessor = new Accessor($obj);
 
@@ -96,9 +95,9 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      */
     public function toGoesToKeyInObject()
     {
-        $obj = new stdClass();
+        $obj         = new stdClass();
         $obj->level1 = 'bar';
-        $accessor = new Accessor($obj);
+        $accessor    = new Accessor($obj);
 
         $this->assertTrue($accessor->to('level1'));
         $this->assertSame('bar', $accessor->getCurrent());
@@ -111,10 +110,10 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      */
     public function toGoesToKeyInNestedObject()
     {
-        $obj = new stdClass();
-        $obj->level1 = new stdClass();
+        $obj                 = new stdClass();
+        $obj->level1         = new stdClass();
         $obj->level1->level2 = 'bar';
-        $accessor = new Accessor($obj);
+        $accessor            = new Accessor($obj);
         $this->assertTrue($accessor->to('level1'));
         $this->assertTrue($accessor->to('level2'));
 
@@ -141,7 +140,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function toGoesToKeyInObjectUsingMethod()
     {
         eval('class AccessorTestMockToGoesToKeyInObjectUsingMethod { public function level1() { return "bar"; } }');
-        $obj = new \AccessorTestMockToGoesToKeyInObjectUsingMethod();
+        $obj      = new \AccessorTestMockToGoesToKeyInObjectUsingMethod();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->to('level1'));
@@ -157,7 +156,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     {
         eval('class AccessorTestMockToGoesToKeyInNestedObjectUsingMethod2 { public function level2() { return "bar"; } }');
         eval('class AccessorTestMockToGoesToKeyInNestedObjectUsingMethod { public function level1() { return new AccessorTestMockToGoesToKeyInNestedObjectUsingMethod2(); } }');
-        $obj = new \AccessorTestMockToGoesToKeyInNestedObjectUsingMethod();
+        $obj      = new \AccessorTestMockToGoesToKeyInNestedObjectUsingMethod();
         $accessor = new Accessor($obj);
         $this->assertTrue($accessor->to('level1'));
         $this->assertTrue($accessor->to('level2'));
@@ -173,7 +172,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function toReturnsFalseIfKeyDoesNotExistInObjectUsingMethod()
     {
         eval('class AccessorTestMockToReturnsFalseIfKeyDoesNotExistInObjectUsingMethod {}');
-        $obj = new \AccessorTestMockToReturnsFalseIfKeyDoesNotExistInObjectUsingMethod();
+        $obj      = new \AccessorTestMockToReturnsFalseIfKeyDoesNotExistInObjectUsingMethod();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->to('invalid'));
@@ -187,7 +186,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function toGoesToKeyInObjectUsingGetter()
     {
         eval('class AccessorTestMockToGoesToKeyInObjectUsingGetter { public function getLevel1() { return "bar"; } }');
-        $obj = new \AccessorTestMockToGoesToKeyInObjectUsingGetter();
+        $obj      = new \AccessorTestMockToGoesToKeyInObjectUsingGetter();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->to('level1'));
@@ -203,7 +202,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     {
         eval('class AccessorTestMockToGoesToKeyInNestedObjectUsingGetter2 { public function getLevel2() { return "bar"; } }');
         eval('class AccessorTestMockToGoesToKeyInNestedObjectUsingGetter { public function getLevel1() { return new AccessorTestMockToGoesToKeyInNestedObjectUsingGetter2(); } }');
-        $obj = new \AccessorTestMockToGoesToKeyInNestedObjectUsingGetter();
+        $obj      = new \AccessorTestMockToGoesToKeyInNestedObjectUsingGetter();
         $accessor = new Accessor($obj);
         $this->assertTrue($accessor->to('level1'));
         $this->assertTrue($accessor->to('level2'));
@@ -219,7 +218,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function toReturnsFalseIfKeyDoesNotExistInObjectUsingGetter()
     {
         eval('class AccessorTestMockToReturnsFalseIfKeyDoesNotExistInObjectUsingGetter {}');
-        $obj = new \AccessorTestMockToReturnsFalseIfKeyDoesNotExistInObjectUsingGetter();
+        $obj      = new \AccessorTestMockToReturnsFalseIfKeyDoesNotExistInObjectUsingGetter();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->to('invalid'));
@@ -233,7 +232,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function toGoesToKeyInObjectUsingGet()
     {
         eval('class AccessorTestMockToGoesToKeyInObjectUsingGet { public function get($k) { return "bar"; } }');
-        $obj = new \AccessorTestMockToGoesToKeyInObjectUsingGet();
+        $obj      = new \AccessorTestMockToGoesToKeyInObjectUsingGet();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->to('level1'));
@@ -248,7 +247,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function toGoesToKeyInObjectUsingHasser()
     {
         eval('class AccessorTestMockToGoesToKeyInObjectUsingHasser { public function hasLevel1() { return "bar"; } }');
-        $obj = new \AccessorTestMockToGoesToKeyInObjectUsingHasser();
+        $obj      = new \AccessorTestMockToGoesToKeyInObjectUsingHasser();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->to('level1'));
@@ -264,7 +263,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     {
         eval('class AccessorTestMockToGoesToKeyInNestedObjectUsingHasser2 { public function hasLevel2() { return "bar"; } }');
         eval('class AccessorTestMockToGoesToKeyInNestedObjectUsingHasser { public function hasLevel1() { return new AccessorTestMockToGoesToKeyInNestedObjectUsingHasser2(); } }');
-        $obj = new \AccessorTestMockToGoesToKeyInNestedObjectUsingHasser();
+        $obj      = new \AccessorTestMockToGoesToKeyInNestedObjectUsingHasser();
         $accessor = new Accessor($obj);
         $this->assertTrue($accessor->to('level1'));
         $this->assertTrue($accessor->to('level2'));
@@ -280,7 +279,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function toReturnsFalseIfKeyDoesNotExistInObjectUsingHasser()
     {
         eval('class AccessorTestMockToReturnsFalseIfKeyDoesNotExistInObjectUsingHasser {}');
-        $obj = new \AccessorTestMockToReturnsFalseIfKeyDoesNotExistInObjectUsingHasser();
+        $obj      = new \AccessorTestMockToReturnsFalseIfKeyDoesNotExistInObjectUsingHasser();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->to('invalid'));
@@ -294,7 +293,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function toGoesToKeyInObjectUsingHas()
     {
         eval('class AccessorTestMockToGoesToKeyInObjectUsingHas { public function has($k) { return "bar"; } }');
-        $obj = new \AccessorTestMockToGoesToKeyInObjectUsingHas();
+        $obj      = new \AccessorTestMockToGoesToKeyInObjectUsingHas();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->to('level1'));
@@ -309,7 +308,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function toGoesToKeyInObjectUsingIsser()
     {
         eval('class AccessorTestMockToGoesToKeyInObjectUsingIsser { public function isLevel1() { return "bar"; } }');
-        $obj = new \AccessorTestMockToGoesToKeyInObjectUsingIsser();
+        $obj      = new \AccessorTestMockToGoesToKeyInObjectUsingIsser();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->to('level1'));
@@ -325,7 +324,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     {
         eval('class AccessorTestMockToGoesToKeyInNestedObjectUsingIsser2 { public function isLevel2() { return "bar"; } }');
         eval('class AccessorTestMockToGoesToKeyInNestedObjectUsingIsser { public function isLevel1() { return new AccessorTestMockToGoesToKeyInNestedObjectUsingIsser2(); } }');
-        $obj = new \AccessorTestMockToGoesToKeyInNestedObjectUsingIsser();
+        $obj      = new \AccessorTestMockToGoesToKeyInNestedObjectUsingIsser();
         $accessor = new Accessor($obj);
         $this->assertTrue($accessor->to('level1'));
         $this->assertTrue($accessor->to('level2'));
@@ -341,7 +340,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function toReturnsFalseIfKeyDoesNotExistInObjectUsingIsser()
     {
         eval('class AccessorTestMockToReturnsFalseIfKeyDoesNotExistInObjectUsingIsser {}');
-        $obj = new \AccessorTestMockToReturnsFalseIfKeyDoesNotExistInObjectUsingIsser();
+        $obj      = new \AccessorTestMockToReturnsFalseIfKeyDoesNotExistInObjectUsingIsser();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->to('invalid'));
@@ -355,7 +354,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function toGoesToKeyInObjectUsingIs()
     {
         eval('class AccessorTestMockToGoesToKeyInObjectUsingIs { public function is($k) { return "bar"; } }');
-        $obj = new \AccessorTestMockToGoesToKeyInObjectUsingIs();
+        $obj      = new \AccessorTestMockToGoesToKeyInObjectUsingIs();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->to('level1'));
@@ -420,9 +419,9 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      */
     public function setSetsExistingValueInObject()
     {
-        $obj = new stdClass();
+        $obj         = new stdClass();
         $obj->level1 = 'bar';
-        $accessor = new Accessor($obj);
+        $accessor    = new Accessor($obj);
 
         $this->assertTrue($accessor->set('level1', 'foo'));
         $this->assertSame('foo', $accessor->getData()->level1);
@@ -434,10 +433,10 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      */
     public function setSetsExistingValueInNestedObject()
     {
-        $obj = new stdClass();
-        $obj->level1 = new stdClass();
+        $obj                 = new stdClass();
+        $obj->level1         = new stdClass();
         $obj->level1->level2 = 'bar';
-        $accessor = new Accessor($obj);
+        $accessor            = new Accessor($obj);
 
         $this->assertTrue($accessor->to('level1'));
         $this->assertTrue($accessor->set('level2', 'foo'));
@@ -450,9 +449,9 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      */
     public function setSetsNewValueInObject()
     {
-        $obj = new stdClass();
+        $obj          = new stdClass();
         $obj->level1a = 'bar';
-        $accessor = new Accessor($obj);
+        $accessor     = new Accessor($obj);
 
         $this->assertTrue($accessor->set('level1b', 'foo'));
         $this->assertSame('bar', $accessor->getData()->level1a);
@@ -465,10 +464,10 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      */
     public function setSetsNewValueInNestedObject()
     {
-        $obj = new stdClass();
-        $obj->level1 = new stdClass();
+        $obj                  = new stdClass();
+        $obj->level1          = new stdClass();
         $obj->level1->level2a = 'bar';
-        $accessor = new Accessor($obj);
+        $accessor             = new Accessor($obj);
 
         $this->assertTrue($accessor->to('level1'));
         $this->assertTrue($accessor->set('level2b', 'foo'));
@@ -483,7 +482,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function setSetsValueInObjectUsingMethod()
     {
         eval('class AccessorTestMockSetSetsValueInObjectUsingMethod { protected $v = "bar"; public function level1($v = null) { if ($v) $this->v = $v; return $this->v; } }');
-        $obj = new \AccessorTestMockSetSetsValueInObjectUsingMethod();
+        $obj      = new \AccessorTestMockSetSetsValueInObjectUsingMethod();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->set('level1', 'foo'));
@@ -498,7 +497,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     {
         eval('class AccessorTestMockSetsValueInNestedObjectUsingMethod2 { protected $v = "bar"; public function level2($v = null) { if ($v) $this->v = $v; return $this->v; } }');
         eval('class AccessorTestMockSetsValueInNestedObjectUsingMethod { function __construct() { $this->i = new AccessorTestMockSetsValueInNestedObjectUsingMethod2(); } public function level1() { return $this->i; } }');
-        $obj = new \AccessorTestMockSetsValueInNestedObjectUsingMethod();
+        $obj      = new \AccessorTestMockSetsValueInNestedObjectUsingMethod();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->to('level1'));
@@ -513,7 +512,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function setSetsValueInObjectUsingSetter()
     {
         eval('class AccessorTestMockSetSetsValueInObjectUsingSetter { protected $v; public function setLevel1($v) { $this->v = $v; } function getLevel1() { return $this->v; } }');
-        $obj = new \AccessorTestMockSetSetsValueInObjectUsingSetter();
+        $obj      = new \AccessorTestMockSetSetsValueInObjectUsingSetter();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->set('level1', 'foo'));
@@ -528,7 +527,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     {
         eval('class AccessorTestMockSetsValueInNestedObjectUsingSetter2 { protected $v; public function setLevel2($v) { $this->v = $v; } public function getLevel2() { return $this->v; } }');
         eval('class AccessorTestMockSetsValueInNestedObjectUsingSetter { function __construct() { $this->i = new AccessorTestMockSetsValueInNestedObjectUsingSetter2(); } public function level1() { return $this->i; } }');
-        $obj = new \AccessorTestMockSetsValueInNestedObjectUsingSetter();
+        $obj      = new \AccessorTestMockSetsValueInNestedObjectUsingSetter();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->to('level1'));
@@ -543,7 +542,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function setSetsValueInObjectUsingSet()
     {
         eval('class AccessorTestMockSetSetsValueInObjectUsingSet { protected $v; public function set($k, $v) { $this->v = $v; } function getLevel1() { return $this->v; } }');
-        $obj = new \AccessorTestMockSetSetsValueInObjectUsingSet();
+        $obj      = new \AccessorTestMockSetSetsValueInObjectUsingSet();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->set('level1', 'foo'));
@@ -589,9 +588,9 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      */
     public function hasReturnsTrueIfObjectHasProperty()
     {
-        $obj = new stdClass();
+        $obj         = new stdClass();
         $obj->level1 = 'foo';
-        $accessor = new Accessor($obj);
+        $accessor    = new Accessor($obj);
 
         $this->assertTrue($accessor->has('level1'));
     }
@@ -614,7 +613,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsTrueIfObjectHasMethod()
     {
         eval('class AccessorTestMockHasReturnsTrueIfObjectHasMethod { public function level1() { return 42; } }');
-        $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasMethod();
+        $obj      = new \AccessorTestMockHasReturnsTrueIfObjectHasMethod();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->has('level1'));
@@ -627,7 +626,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsFalseIfObjectHasMethodAndReturnsFalse()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectHasMethodAndReturnsFalse { public function level1() { return false; } }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasMethodAndReturnsFalse();
+        $obj      = new \AccessorTestMockHasReturnsFalseIfObjectHasMethodAndReturnsFalse();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
@@ -640,7 +639,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsFalseIfObjectHasPrivateMethod()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectHasPrivateMethod { private function level1() {} }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasPrivateMethod();
+        $obj      = new \AccessorTestMockHasReturnsFalseIfObjectHasPrivateMethod();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
@@ -653,7 +652,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsFalseIfObjectDoesNotHasMethod()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectDoesNotHasMethod { private $level1; }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectDoesNotHasMethod();
+        $obj      = new \AccessorTestMockHasReturnsFalseIfObjectDoesNotHasMethod();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
@@ -666,7 +665,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsTrueIfObjectHasGetter()
     {
         eval('class AccessorTestMockHasReturnsTrueIfObjectHasGetter { public function getLevel1() { return 42; } }');
-        $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasGetter();
+        $obj      = new \AccessorTestMockHasReturnsTrueIfObjectHasGetter();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->has('level1'));
@@ -679,7 +678,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsFalseIfObjectHasGetterAndReturnsFalse()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectHasGetterAndReturnsFalse { public function getLevel1() { return null; } }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasGetterAndReturnsFalse();
+        $obj      = new \AccessorTestMockHasReturnsFalseIfObjectHasGetterAndReturnsFalse();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
@@ -692,7 +691,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsFalseIfObjectDoesNotHasGetter()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectDoesNotHasGetter { private $level1; }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectDoesNotHasGetter();
+        $obj      = new \AccessorTestMockHasReturnsFalseIfObjectDoesNotHasGetter();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
@@ -705,7 +704,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsTrueIfObjectHasGet()
     {
         eval('class AccessorTestMockHasReturnsTrueIfObjectHasGet { public function get($k) { return 42; } }');
-        $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasGet();
+        $obj      = new \AccessorTestMockHasReturnsTrueIfObjectHasGet();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->has('level1'));
@@ -718,7 +717,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsFalseIfObjectHasGetAndReturnsFalse()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectHasGetAndReturnsFalse { public function get($k) { return null; } }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasGetAndReturnsFalse();
+        $obj      = new \AccessorTestMockHasReturnsFalseIfObjectHasGetAndReturnsFalse();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
@@ -731,7 +730,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsTrueIfObjectHasHasser()
     {
         eval('class AccessorTestMockHasReturnsTrueIfObjectHasHasser { public function hasLevel1() { return true; } }');
-        $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasHasser();
+        $obj      = new \AccessorTestMockHasReturnsTrueIfObjectHasHasser();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->has('level1'));
@@ -744,7 +743,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsFalseIfObjectHasHasserAndReturnsFalse()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectHasHasserAndReturnsFalse { public function hasLevel1() { return false; } }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasHasserAndReturnsFalse();
+        $obj      = new \AccessorTestMockHasReturnsFalseIfObjectHasHasserAndReturnsFalse();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
@@ -757,7 +756,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsFalseIfObjectDoesNotHasHasser()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectDoesNotHasHasser { private $level1; }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectDoesNotHasHasser();
+        $obj      = new \AccessorTestMockHasReturnsFalseIfObjectDoesNotHasHasser();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
@@ -770,7 +769,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsTrueIfObjectHasHas()
     {
         eval('class AccessorTestMockHasReturnsTrueIfObjectHasHas { public function has($k) { return true; } }');
-        $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasHas();
+        $obj      = new \AccessorTestMockHasReturnsTrueIfObjectHasHas();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->has('level1'));
@@ -783,7 +782,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsFalseIfObjectHasHasAndReturnsFalse()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectHasHasAndReturnsFalse { public function has($k) { return false; } }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasHasAndReturnsFalse();
+        $obj      = new \AccessorTestMockHasReturnsFalseIfObjectHasHasAndReturnsFalse();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
@@ -796,7 +795,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsTrueIfObjectHasIsser()
     {
         eval('class AccessorTestMockHasReturnsTrueIfObjectHasIsser { public function isLevel1() { return true; } }');
-        $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasIsser();
+        $obj      = new \AccessorTestMockHasReturnsTrueIfObjectHasIsser();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->has('level1'));
@@ -809,7 +808,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsFalseIfObjectHasIsserAndReturnsFalse()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectHasIsserAndReturnsFalse { public function isLevel1() { return false;} }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasIsserAndReturnsFalse();
+        $obj      = new \AccessorTestMockHasReturnsFalseIfObjectHasIsserAndReturnsFalse();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
@@ -822,7 +821,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsFalseIfObjectDoesNotHasIsser()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectDoesNotHasIsser { private $level1; }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectDoesNotHasIsser();
+        $obj      = new \AccessorTestMockHasReturnsFalseIfObjectDoesNotHasIsser();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
@@ -835,7 +834,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsTrueIfObjectHasIs()
     {
         eval('class AccessorTestMockHasReturnsTrueIfObjectHasIs { public function is() { return true; } }');
-        $obj = new \AccessorTestMockHasReturnsTrueIfObjectHasIs();
+        $obj      = new \AccessorTestMockHasReturnsTrueIfObjectHasIs();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->has('level1'));
@@ -848,7 +847,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function hasReturnsFalseIfObjectHasIsAndReturnsFalse()
     {
         eval('class AccessorTestMockHasReturnsFalseIfObjectHasIsAndReturnsFalse { public function is() { return false;} }');
-        $obj = new \AccessorTestMockHasReturnsFalseIfObjectHasIsAndReturnsFalse();
+        $obj      = new \AccessorTestMockHasReturnsFalseIfObjectHasIsAndReturnsFalse();
         $accessor = new Accessor($obj);
 
         $this->assertFalse($accessor->has('level1'));
@@ -883,9 +882,9 @@ class AccessorTest extends PHPUnit_Framework_TestCase
      */
     public function removeRemovesValueFromObject()
     {
-        $obj = new stdClass();
+        $obj         = new stdClass();
         $obj->level1 = 'foo';
-        $accessor = new Accessor($obj);
+        $accessor    = new Accessor($obj);
 
         $this->assertTrue($accessor->remove('level1'));
         $this->assertFalse(isset($accessor->getData()->level1));
@@ -909,7 +908,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function removeRemovesValueFromObjectUsingUnsetter()
     {
         eval('class AccessorTestMockRemovesValueFromObjectUsingUnsetter { private $v; public function unsetLevel1() { unset($this->v); } public function is() { return isset($this->v); } }');
-        $obj = new \AccessorTestMockRemovesValueFromObjectUsingUnsetter();
+        $obj      = new \AccessorTestMockRemovesValueFromObjectUsingUnsetter();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->remove('level1'));
@@ -923,7 +922,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function removeRemovesValueFromObjectUsingRemover()
     {
         eval('class AccessorTestMockRemovesValueFromObjectUsingRemover { private $v; public function removeLevel1() { unset($this->v); } public function is() { return isset($this->v); } }');
-        $obj = new \AccessorTestMockRemovesValueFromObjectUsingRemover();
+        $obj      = new \AccessorTestMockRemovesValueFromObjectUsingRemover();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->remove('level1'));
@@ -937,7 +936,7 @@ class AccessorTest extends PHPUnit_Framework_TestCase
     public function removeRemovesValueFromObjectUsingRemove()
     {
         eval('class AccessorTestMockRemovesValueFromObjectUsingRemove { private $v; public function remove($v) { unset($this->v); } public function is() { return isset($this->v); } }');
-        $obj = new \AccessorTestMockRemovesValueFromObjectUsingRemove();
+        $obj      = new \AccessorTestMockRemovesValueFromObjectUsingRemove();
         $accessor = new Accessor($obj);
 
         $this->assertTrue($accessor->remove('level1'));

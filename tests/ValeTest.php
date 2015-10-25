@@ -3,12 +3,10 @@
 namespace Cocur\Vale;
 
 use InvalidArgumentException;
-use stdClass;
 
 /**
- * ValeTest
+ * ValeTest.
  *
- * @package   Cocur\Vale
  * @author    Florian Eckerstorfer <florian@eckerstorfer.co>
  * @copyright 2015 Florian Eckerstorfer
  * @group     unit
@@ -208,7 +206,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
      */
     public function hasValueReturnsTrueIfValueExists()
     {
-        $this->assertTrue($this->vale->hasValue(['name' => 'Tyrion'], ['name']));
+        $this->assertTrue($this->vale->hasValue(['name'   => 'Tyrion'], ['name']));
         $this->assertTrue($this->vale->hasValue(['level1' => ['level2' => 'bar']], ['level1', 'level2']));
     }
 
@@ -228,7 +226,7 @@ class ValeTest extends \PHPUnit_Framework_TestCase
      */
     public function hasValueReturnsFalseIfValueNotExists()
     {
-        $this->assertFalse($this->vale->hasValue(['foo' => 'bar'], ['invalid']));
+        $this->assertFalse($this->vale->hasValue(['foo'    => 'bar'], ['invalid']));
         $this->assertFalse($this->vale->hasValue(['level1' => []], ['level1', 'level2']));
         $this->assertFalse($this->vale->hasValue([], ['level1', 'level2']));
     }

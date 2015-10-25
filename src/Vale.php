@@ -5,9 +5,8 @@ namespace Cocur\Vale;
 use InvalidArgumentException;
 
 /**
- * Vale
+ * Vale.
  *
- * @package   Cocur\Vale
  * @author    Florian Eckerstorfer <florian@eckerstorfer.co>
  * @copyright 2015 Florian Eckerstorfer
  * @license   http://opensource.org/licenses/MIT The MIT License
@@ -123,7 +122,7 @@ class Vale
         $depth    = 0;
         $keyCount = count($keys);
         foreach ($keys as $key) {
-            if ($depth+1 === $keyCount) {
+            if ($depth + 1 === $keyCount) {
                 if ($accessor->set($key, $value) === false) {
                     throw new InvalidArgumentException(sprintf(
                         'Did not set path %s in structure %s',
@@ -131,7 +130,7 @@ class Vale
                         json_encode($data)
                     ));
                 }
-            } else if ($accessor->to($key) === false) {
+            } elseif ($accessor->to($key) === false) {
                 throw new InvalidArgumentException(sprintf(
                     'Did not find path %s in structure %s',
                     json_encode($keys),
@@ -164,7 +163,7 @@ class Vale
         $keyCount = count($keys);
         $depth    = 0;
         foreach ($keys as $key) {
-            if (($depth+1 === $keyCount && $accessor->has($key) === false) || $accessor->to($key) === false) {
+            if (($depth + 1 === $keyCount && $accessor->has($key) === false) || $accessor->to($key) === false) {
                 return false;
             }
 
@@ -183,7 +182,7 @@ class Vale
     public function removeValue($data, $keys)
     {
         if ($this->isKeysEmpty($keys)) {
-            return null;
+            return;
         }
         if (!is_array($keys)) {
             $keys = [$keys];
@@ -193,7 +192,7 @@ class Vale
         $keyCount = count($keys);
         $depth    = 0;
         foreach ($keys as $key) {
-            if ($depth+1 === $keyCount) {
+            if ($depth + 1 === $keyCount) {
                 if ($accessor->remove($key) === false) {
                     throw new InvalidArgumentException(sprintf(
                         'Did not remove path %s in structure %s',
@@ -201,7 +200,7 @@ class Vale
                         json_encode($data)
                     ));
                 }
-            } else if ($accessor->to($key) === false) {
+            } elseif ($accessor->to($key) === false) {
                 throw new InvalidArgumentException(sprintf(
                     'Did not find path %s in structure %s',
                     json_encode($keys),

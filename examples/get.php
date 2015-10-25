@@ -4,14 +4,14 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use Cocur\Getter\Getter;
 
-$joffrey = new Person('Joffrey');
+$joffrey  = new Person('Joffrey');
 $myrcella = new Person('Myrcella');
-$tommen = new Person('Tommen');
-$cersei = new Person('Cersei', [$joffrey, $myrcella, $tommen]);
+$tommen   = new Person('Tommen');
+$cersei   = new Person('Cersei', [$joffrey, $myrcella, $tommen]);
 
 $firstChildName = Getter::get($cersei, ['children', 0, 'firstName']);
 print_r($cersei);
-echo "Name of first child: ".$firstChildName."\n";
+echo 'Name of first child: '.$firstChildName."\n";
 
 class Person
 {
